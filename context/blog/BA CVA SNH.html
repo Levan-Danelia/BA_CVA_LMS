@@ -1,0 +1,759 @@
+<p>&lt;!DOCTYPE html&gt;</p>
+<p>&lt;html lang="en"&gt;</p>
+<p>&lt;head&gt;</p>
+<p>&lt;meta charset="UTF-8"&gt;</p>
+<p>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p>&lt;!-- Fonts --&gt;</p>
+<p>&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;</p>
+<p>&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;</p>
+<p>&lt;link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&amp;display=swap" rel="stylesheet"&gt;</p>
+<p>&lt;title&gt;BA CVA: Single Name Hedges&lt;/title&gt;</p>
+<p>&lt;!-- MathJax Configuration --&gt;</p>
+<p>&lt;script&gt;</p>
+<p>window.MathJax = {</p>
+<p>tex: {</p>
+<p>inlineMath: [['\\(', '\\)'], ['$', '$']],</p>
+<p>displayMath: [['\\[', '\\]'], ['$$', '$$']],</p>
+<p>processEscapes: true</p>
+<p>},</p>
+<p>options: {</p>
+<p>ignoreHtmlClass: 'tex2jax_ignore',</p>
+<p>processHtmlClass: 'tex2jax_process'</p>
+<p>},</p>
+<p>startup: {</p>
+<p>pageReady: () =&gt; {</p>
+<p>return MathJax.startup.defaultPageReady().then(() =&gt; {</p>
+<p>console.log('MathJax is ready and initial typesetting is complete');</p>
+<p>});</p>
+<p>}</p>
+<p>}</p>
+<p>};</p>
+<p>&lt;/script&gt;</p>
+<p>&lt;script src="https://polyfill.io/v3/polyfill.min.js?features=es6"&gt;&lt;/script&gt;</p>
+<p>&lt;script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"&gt;&lt;/script&gt;</p>
+<p>&lt;!-- CSS Styles --&gt;</p>
+<p>&lt;style&gt;</p>
+<p>/* --- Base Styles --- */</p>
+<p>body {</p>
+<p>font-family: 'Lato', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;</p>
+<p>line-height: 1.7;</p>
+<p>color: #34495E;</p>
+<p>background-color: #fdfdfd;</p>
+<p>margin: 0;</p>
+<p>padding: 1rem 2rem 2rem;</p>
+<p>}</p>
+<p>.blog-content {</p>
+<p>max-width: 800px;</p>
+<p>margin: 0 auto;</p>
+<p>}</p>
+<p>/* --- Typography --- */</p>
+<p>h1, h2, h3, h4 {</p>
+<p>font-family: 'Avenir Next', 'Avenir', 'Helvetica Neue', sans-serif;</p>
+<p>font-weight: 300;</p>
+<p>color: #2C3E50;</p>
+<p>margin-top: 2.5rem;</p>
+<p>margin-bottom: 1.25rem;</p>
+<p>line-height: 1.3;</p>
+<p>}</p>
+<p>h1 {</p>
+<p>font-size: 2.2rem;</p>
+<p>text-align: center;</p>
+<p>border-bottom: 2px solid #3498DB;</p>
+<p>padding-bottom: 1rem;</p>
+<p>margin-bottom: 2.5rem;</p>
+<p>}</p>
+<p>h2 {</p>
+<p>font-size: 1.75rem;</p>
+<p>text-align: left;</p>
+<p>margin-top: 2rem;</p>
+<p>margin-bottom: 0.75rem;</p>
+<p>}</p>
+<p>.main-intro p {</p>
+<p>text-align: left;</p>
+<p>margin-bottom: 1rem;</p>
+<p>font-size: 1rem;</p>
+<p>}</p>
+<p>h3 {</p>
+<p>font-size: 1.5rem;</p>
+<p>border-bottom: none;</p>
+<p>padding-bottom: 0;</p>
+<p>margin-top: 1.5rem;</p>
+<p>margin-bottom: 0.5rem;</p>
+<p>}</p>
+<p>h4 {</p>
+<p>font-size: 1.2rem;</p>
+<p>margin-top: 1.25rem;</p>
+<p>margin-bottom: 0.5rem;</p>
+<p>}</p>
+<p>p, ul, ol {</p>
+<p>margin-bottom: 1rem;</p>
+<p>font-size: 1rem;</p>
+<p>}</p>
+<p>ul, ol {</p>
+<p>padding-left: 1.5rem;</p>
+<p>}</p>
+<p>li {</p>
+<p>margin-bottom: 0.5rem;</p>
+<p>}</p>
+<p>b, strong {</p>
+<p>font-weight: 700;</p>
+<p>color: #2C3E50;</p>
+<p>}</p>
+<p>.regulatory-ref {</p>
+<p>font-style: italic;</p>
+<p>color: #7f8c8d;</p>
+<p>font-size: 0.9em;</p>
+<p>}</p>
+<p>/* --- Formula Box --- */</p>
+<p>.formula-box {</p>
+<p>background-color: #F8F9FA;</p>
+<p>border-left: 4px solid #3498DB;</p>
+<p>padding: 1.25rem;</p>
+<p>font-family: 'Menlo', 'Consolas', 'Courier New', monospace;</p>
+<p>font-size: 0.9rem;</p>
+<p>border-radius: 0 4px 4px 0;</p>
+<p>overflow-x: auto;</p>
+<p>margin: 1.5rem 0;</p>
+<p>text-align: center;</p>
+<p>}</p>
+<p>/* --- Component List --- */</p>
+<p>.component-item {</p>
+<p>margin-bottom: 1.5rem;</p>
+<p>padding-left: 1rem;</p>
+<p>border-left: 2px solid #ECF0F1;</p>
+<p>}</p>
+<p>.component-name {</p>
+<p>font-weight: 700;</p>
+<p>color: #3498DB;</p>
+<p>font-size: 1.1rem;</p>
+<p>display: block;</p>
+<p>margin-bottom: 0.25rem;</p>
+<p>}</p>
+<p>/* --- Series Structure --- */</p>
+<p>.series-container {</p>
+<p>margin: 0.25rem 0 1rem 0;</p>
+<p>}</p>
+<p>.series-item {</p>
+<p>display: flex;</p>
+<p>align-items: flex-start;</p>
+<p>padding: 0.6rem 0;</p>
+<p>border-bottom: 1px solid #e0e0e0;</p>
+<p>}</p>
+<p>.series-item:last-child {</p>
+<p>border-bottom: none;</p>
+<p>}</p>
+<p>.series-number {</p>
+<p>flex-shrink: 0;</p>
+<p>width: 28px;</p>
+<p>height: 28px;</p>
+<p>border-radius: 50%;</p>
+<p>background-color: #3498DB;</p>
+<p>color: white;</p>
+<p>font-weight: 700;</p>
+<p>font-size: 0.85rem;</p>
+<p>display: flex;</p>
+<p>align-items: center;</p>
+<p>justify-content: center;</p>
+<p>margin-right: 1rem;</p>
+<p>margin-top: 2px;</p>
+<p>}</p>
+<p>.series-number.inactive {</p>
+<p>background-color: #e0e0e0;</p>
+<p>color: #7f8c8d;</p>
+<p>}</p>
+<p>.series-item.active {</p>
+<p>background-color: #f0faff;</p>
+<p>border-left: 4px solid #3498DB;</p>
+<p>padding-left: 0.5rem;</p>
+<p>}</p>
+<p>.series-content {</p>
+<p>flex: 1;</p>
+<p>}</p>
+<p>.series-content h4 {</p>
+<p>margin: 0 0 0.25rem 0;</p>
+<p>font-size: 1.05rem;</p>
+<p>font-weight: 700;</p>
+<p>color: #2C3E50;</p>
+<p>}</p>
+<p>.series-content p {</p>
+<p>margin: 0;</p>
+<p>font-size: 0.9rem;</p>
+<p>color: #7f8c8d;</p>
+<p>line-height: 1.5;</p>
+<p>}</p>
+<p>/* --- Notation Box --- */</p>
+<p>.notation-box {</p>
+<p>background-color: #f0faff;</p>
+<p>border-left: 4px solid #3498DB;</p>
+<p>padding: 1.25rem;</p>
+<p>margin: 1.5rem 0;</p>
+<p>border-radius: 0 4px 4px 0;</p>
+<p>}</p>
+<p>/* --- Tables --- */</p>
+<p>table {</p>
+<p>width: 100%;</p>
+<p>border-collapse: collapse;</p>
+<p>margin: 1.5rem 0;</p>
+<p>font-size: 0.95rem;</p>
+<p>}</p>
+<p>th, td {</p>
+<p>padding: 0.75rem 1rem;</p>
+<p>text-align: left;</p>
+<p>border-bottom: 1px solid #e0e0e0;</p>
+<p>}</p>
+<p>thead th {</p>
+<p>background-color: #F8F9FA;</p>
+<p>font-weight: 700;</p>
+<p>color: #2C3E50;</p>
+<p>border-bottom: 2px solid #3498DB;</p>
+<p>}</p>
+<p>tbody tr:nth-child(even) {</p>
+<p>background-color: #F8F9FA;</p>
+<p>}</p>
+<p>.numeric {</p>
+<p>text-align: right;</p>
+<p>font-family: 'Menlo', monospace;</p>
+<p>}</p>
+<p>.rhc-value {</p>
+<p>font-weight: 700;</p>
+<p>color: #3498DB;</p>
+<p>}</p>
+<p>hr {</p>
+<p>border: none;</p>
+<p>border-top: 1px solid #e0e0e0;</p>
+<p>margin: 2rem 0;</p>
+<p>}</p>
+<p>&lt;/style&gt;</p>
+<p>&lt;/head&gt;</p>
+<p>&lt;body&gt;</p>
+<p>&lt;div class="blog-content"&gt;</p>
+<p>&lt;h1&gt;Single Name Hedges (SNH)&lt;/h1&gt;</p>
+<p>&lt;!-- 1. SUMMARY --&gt;</p>
+<p>&lt;h2&gt;Summary&lt;/h2&gt;</p>
+<p>&lt;div class="main-intro"&gt;</p>
+<p>&lt;p&gt;In the "Full Approach" of the Basic Approach for CVA (BA-CVA), the recognition of risk mitigants is a core pillar for capital optimization. &lt;b&gt;Single Name Hedges (SNH)&lt;/b&gt; represent the most direct form of protection, allowing firms to offset the credit spread risk of specific counterparties using eligible instruments like Credit Default Swaps (CDS).&lt;/p&gt;</p>
+<p>&lt;p&gt;This section explores how the PRA framework recognizes these hedges, moving beyond the "gross" view of the Reduced Approach to a more nuanced, "net" calculation. We will detail the eligibility criteria, the mechanics of the \(SNH_c\) formula, and how the relationship between the hedge and the counterparty—ranging from direct matches to proxy hedges—determines the level of capital relief.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;hr&gt;</p>
+<p>&lt;!-- 2. SERIES STRUCTURE --&gt;</p>
+<p>&lt;h3&gt;Series Structure&lt;/h3&gt;</p>
+<p>&lt;div class="series-container"&gt;</p>
+<p>&lt;div class="series-item"&gt;</p>
+<p>&lt;div class="series-number inactive"&gt;1&lt;/div&gt;</p>
+<p>&lt;div class="series-content"&gt;</p>
+<p>&lt;h4&gt;Introduction&lt;/h4&gt;</p>
+<p>&lt;p&gt;Regulatory scope, implementation timelines, and the fundamental Discount Scalar.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="series-item"&gt;</p>
+<p>&lt;div class="series-number inactive"&gt;2&lt;/div&gt;</p>
+<p>&lt;div class="series-content"&gt;</p>
+<p>&lt;h4&gt;Standalone CVA (SCVA)&lt;/h4&gt;</p>
+<p>&lt;p&gt;The core engine: Mapping Risk Weights \(RW_c\) and effective maturity \(M_{NS}\).&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="series-item"&gt;</p>
+<p>&lt;div class="series-number inactive"&gt;3&lt;/div&gt;</p>
+<p>&lt;div class="series-content"&gt;</p>
+<p>&lt;h4&gt;K Reduced&lt;/h4&gt;</p>
+<p>&lt;p&gt;The "gross" risk view: Aggregation without the recognition of hedging.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="series-item"&gt;</p>
+<p>&lt;div class="series-number active"&gt;3&lt;/div&gt;</p>
+<p>&lt;div class="series-content"&gt;</p>
+<p>&lt;h4 class="active-title"&gt;Single Name Hedges (SNH)&lt;/h4&gt;</p>
+<p>&lt;p&gt;Direct mitigants: Recognition of single-name CDS and legal relationship correlations.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="series-item"&gt;</p>
+<p>&lt;div class="series-number inactive"&gt;5&lt;/div&gt;</p>
+<p>&lt;div class="series-content"&gt;</p>
+<p>&lt;h4&gt;Hedge Mismatch Adjustment (HMA)&lt;/h4&gt;</p>
+<p>&lt;p&gt;Proxy penalties: Calculating the capital add-on for imperfect hedge correlations.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="series-item"&gt;</p>
+<p>&lt;div class="series-number inactive"&gt;6&lt;/div&gt;</p>
+<p>&lt;div class="series-content"&gt;</p>
+<p>&lt;h4&gt;Index Hedges (IH)&lt;/h4&gt;</p>
+<p>&lt;p&gt;Systematic offsets: Treatment of index CDS and sectoral risk weighting.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="series-item"&gt;</p>
+<p>&lt;div class="series-number inactive"&gt;7&lt;/div&gt;</p>
+<p>&lt;div class="series-content"&gt;</p>
+<p>&lt;h4&gt;K Hedged&lt;/h4&gt;</p>
+<p>&lt;p&gt;The "net" risk view: Aggregating exposure and hedges within the square-root formula.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="series-item"&gt;</p>
+<p>&lt;div class="series-number inactive"&gt;8&lt;/div&gt;</p>
+<p>&lt;div class="series-content"&gt;</p>
+<p>&lt;h4&gt;K Full&lt;/h4&gt;</p>
+<p>&lt;p&gt;The floor check: Balancing K-Reduced and K-Hedged with the \(\beta = 0.25\) constraint.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="series-item"&gt;</p>
+<p>&lt;div class="series-number inactive"&gt;9&lt;/div&gt;</p>
+<p>&lt;div class="series-content"&gt;</p>
+<p>&lt;h4&gt;K Final&lt;/h4&gt;</p>
+<p>&lt;p&gt;The bottom line: Applying the final Discount Scalar and reporting requirements.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;hr&gt;</p>
+<p>&lt;!-- 3. DEFINITION OF KEY TERMS --&gt;</p>
+<p>&lt;h2&gt;Definition of Key Terms&lt;/h2&gt;</p>
+<p>&lt;div class="main-intro"&gt;</p>
+<p>&lt;p&gt;Before executing the calculation, it is vital to understand the regulatory components of the Single Name Hedge. The PRA Rulebook (Chapter 4, Rule 4.7) defines the recognized value of a hedge (\(SNH_c\)) through a prescriptive formula that weights the protection by its alignment with the underlying counterparty risk.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;h3&gt;The Regulatory Formula&lt;/h3&gt;</p>
+<p>&lt;p&gt;For a specific counterparty \(c\), the aggregate recognized value of its single-name hedges is calculated as:&lt;/p&gt;</p>
+<p>&lt;div class="formula-box"&gt;</p>
+<p>\[ SNH_c = \sum_{h \in c} r_{hc} \cdot RW_h \cdot M_h^{SN} \cdot B_h^{SN} \cdot DF_h^{SN} \]</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;h3&gt;Component Breakdown&lt;/h3&gt;</p>
+<p>&lt;div class="component-item"&gt;</p>
+<p>&lt;span class="component-name"&gt;Supervisory Correlation (\(r_{hc}\))&lt;/span&gt;</p>
+<p>&lt;p&gt;This is the "effectiveness" multiplier. It measures how closely the credit spread of the hedging instrument (\(h\)) is expected to track the credit spread of the counterparty (\(c\)). The regulator prescribes fixed levels:</p>
+<p>&lt;ul&gt;</p>
+<p>&lt;li&gt;&lt;b&gt;100%&lt;/b&gt;: The hedge references the counterparty directly (Direct Match).&lt;/li&gt;</p>
+<p>&lt;li&gt;&lt;b&gt;80%&lt;/b&gt;: The hedge references a legally related entity (e.g., Parent/Subsidiary).&lt;/li&gt;</p>
+<p>&lt;li&gt;&lt;b&gt;50%&lt;/b&gt;: The hedge references an entity sharing the same sector and region (Proxy Hedge).&lt;/li&gt;</p>
+<p>&lt;/ul&gt;</p>
+<p>&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="component-item"&gt;</p>
+<p>&lt;span class="component-name"&gt;Hedge Risk Weight (\(RW_h\))&lt;/span&gt;</p>
+<p>&lt;p&gt;The supervisory risk weight assigned to the reference name of the hedge, sourced from the BA-CVA supervisory risk table. This ensures the protection is calibrated to the specific credit quality and sector of the reference entity.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="component-item"&gt;</p>
+<p>&lt;span class="component-name"&gt;Hedge Notional (\(B_h^{SN}\))&lt;/span&gt;</p>
+<p>&lt;p&gt;The nominal amount of the single-name CDS. For contingent credit default swaps, this must be adjusted to the current market value of the reference portfolio or instrument being protected.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="component-item"&gt;</p>
+<p>&lt;span class="component-name"&gt;Remaining Maturity (\(M_h^{SN}\))&lt;/span&gt;</p>
+<p>&lt;p&gt;The residual contractual life of the hedge in years. This parameter captures the time-sensitive nature of the protection, ensuring that short-dated hedges do not provide disproportionate relief against long-dated exposures.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="component-item"&gt;</p>
+<p>&lt;span class="component-name"&gt;Discount Factor (\(DF_h^{SN}\))&lt;/span&gt;</p>
+<p>&lt;p&gt;The factor used to determine the present value of the hedge, calculated using a flat 5% supervisory rate:</p>
+<p>\[ DF_h^{SN} = \frac{1 - e^{-0.05 \cdot M_h^{SN}}}{0.05 \cdot M_h^{SN}} \]</p>
+<p>This aligns the hedge valuation with the exposure valuation (\(DF_{NS}\)) calculated in the SCVA step.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;hr&gt;</p>
+<p>&lt;!-- 4. SUPERVISORY CORRELATIONS --&gt;</p>
+<p>&lt;h2&gt;Supervisory Correlations (\(r_{hc}\))&lt;/h2&gt;</p>
+<p>&lt;div class="main-intro"&gt;</p>
+<p>&lt;p&gt;The effectiveness of a Single Name Hedge is not binary; it is scaled by the &lt;b&gt;Supervisory Correlation (\(r_{hc}\))&lt;/b&gt;. This parameter determines how much of the protection notional is permitted to offset the counterparty's SCVA. Below is the reference portfolio illustrating the three regulatory tiers of correlation.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;table&gt;</p>
+<p>&lt;thead&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;th&gt;Counterparty Name&lt;/th&gt;</p>
+<p>&lt;th&gt;Sector&lt;/th&gt;</p>
+<p>&lt;th&gt;Hedge Type&lt;/th&gt;</p>
+<p>&lt;th&gt;Correlation (\(r_{hc}\))&lt;/th&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;/thead&gt;</p>
+<p>&lt;tbody&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Alpha Bank Ltd&lt;/td&gt;</p>
+<p>&lt;td&gt;Financials&lt;/td&gt;</p>
+<p>&lt;td&gt;Direct Match (Direct Reference)&lt;/td&gt;</p>
+<p>&lt;td class="rhc-value"&gt;100%&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Alpha Bank Ltd&lt;/td&gt;</p>
+<p>&lt;td&gt;Financials&lt;/td&gt;</p>
+<p>&lt;td&gt;Legally Related (Asset Management Sub)&lt;/td&gt;</p>
+<p>&lt;td class="rhc-value"&gt;80%&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Northern Energy Corp&lt;/td&gt;</p>
+<p>&lt;td&gt;Industrials&lt;/td&gt;</p>
+<p>&lt;td&gt;Sector/Region Proxy (Atlantic Oil Co)&lt;/td&gt;</p>
+<p>&lt;td class="rhc-value"&gt;50%&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;GlobalTech Solutions&lt;/td&gt;</p>
+<p>&lt;td&gt;Technology&lt;/td&gt;</p>
+<p>&lt;td&gt;Legally Related (Parent Company)&lt;/td&gt;</p>
+<p>&lt;td class="rhc-value"&gt;80%&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Riverside Finance Ltd&lt;/td&gt;</p>
+<p>&lt;td&gt;Financials&lt;/td&gt;</p>
+<p>&lt;td&gt;Direct Match (Direct Reference)&lt;/td&gt;</p>
+<p>&lt;td class="rhc-value"&gt;100%&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;/tbody&gt;</p>
+<p>&lt;/table&gt;</p>
+<p>&lt;div class="main-intro" style="margin-top: 1.5rem;"&gt;</p>
+<p>&lt;p&gt;As shown in the table, &lt;b&gt;Direct Matches&lt;/b&gt; (100%) provide the highest capital relief, while &lt;b&gt;Proxy Hedges&lt;/b&gt; (50%) are significantly haircut, reflecting the higher basis risk inherent in cross-entity protection.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;hr&gt;</p>
+<p>&lt;!-- 5. RISK WEIGHTS --&gt;</p>
+<p>&lt;h2&gt;Risk Weights&lt;/h2&gt;</p>
+<p>&lt;div class="main-intro"&gt;</p>
+<p>&lt;p&gt;In the BA-CVA framework, &lt;b&gt;\(RW_h\)&lt;/b&gt; represents the supervisory risk weight assigned to the &lt;b&gt;reference entity name&lt;/b&gt; of the hedging instrument. This parameter is used to calibrate the level of protection based on the credit quality and sector of the entity being insured.&lt;/p&gt;</p>
+<p>&lt;p&gt;A core pillar of the BA-CVA is technical symmetry: &lt;b&gt;SCVA and SNH use identical risk weights.&lt;/b&gt; Whether calculating the standalone risk for a counterparty or the capital relief for a hedge, firms must source weights from the same regulatory table. This ensures that if a firm buys a 100% direct-match hedge, the risk weight of the protection mirrors the risk weight of the exposure exactly.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;h3&gt;Supervisory Risk Table&lt;/h3&gt;</p>
+<p>&lt;p&gt;The weights are prescribed based on the sector and credit quality (Investment Grade vs. High Yield/Non-Rated) of the reference entity.&lt;/p&gt;</p>
+<p>&lt;table&gt;</p>
+<p>&lt;thead&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;th&gt;Sector&lt;/th&gt;</p>
+<p>&lt;th class="numeric"&gt;Investment Grade&lt;/th&gt;</p>
+<p>&lt;th class="numeric"&gt;High Yield &amp; Non-Rated&lt;/th&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;/thead&gt;</p>
+<p>&lt;tbody&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Sovereigns including central banks and MDBs&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.5%&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;2.0%&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Local government, PSEs, government-backed non-financials&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;1.0%&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;4.0%&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Financials (excluding pension funds)&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;5.0%&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;12.0%&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Pension funds&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;3.5%&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;8.5%&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Basic materials, energy, industrials&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;3.0%&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;7.0%&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Consumer goods and services, transportation&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;3.0%&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;8.5%&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Technology, telecommunications&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;2.0%&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;5.5%&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Health care, utilities, professional activities&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;1.5%&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;5.0%&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Other sector&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;5.0%&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;12.0%&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;/tbody&gt;</p>
+<p>&lt;/table&gt;</p>
+<p>&lt;hr&gt;</p>
+<p>&lt;h3&gt;Portfolio Risk Weight Mapping&lt;/h3&gt;</p>
+<p>&lt;p&gt;Below is the mapping for our reference portfolio, using the \(RW_h\) notation to identify the weights for each reference entity name in our hedges.&lt;/p&gt;</p>
+<p>&lt;table&gt;</p>
+<p>&lt;thead&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;th&gt;Reference Entity Name&lt;/th&gt;</p>
+<p>&lt;th&gt;Sector / Quality Mapping&lt;/th&gt;</p>
+<p>&lt;th class="numeric"&gt;\(RW_h\)&lt;/th&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;/thead&gt;</p>
+<p>&lt;tbody&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Alpha Bank Ltd&lt;/td&gt;</p>
+<p>&lt;td&gt;Financials (Investment Grade)&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;5.0%&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Alpha Asset Management&lt;/td&gt;</p>
+<p>&lt;td&gt;Financials (Investment Grade)&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;5.0%&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Atlantic Oil Co (Proxy)&lt;/td&gt;</p>
+<p>&lt;td&gt;Basic Materials / Energy (Investment Grade)&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;3.0%&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;GlobalTech Holdings Inc&lt;/td&gt;</p>
+<p>&lt;td&gt;Technology / Telecoms (High Yield)&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;5.5%&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Riverside Finance Ltd&lt;/td&gt;</p>
+<p>&lt;td&gt;Financials (Investment Grade)&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;5.0%&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;/tbody&gt;</p>
+<p>&lt;/table&gt;</p>
+<p>&lt;hr&gt;</p>
+<p>&lt;!-- 6. MATURITY --&gt;</p>
+<p>&lt;h2&gt;Maturity&lt;/h2&gt;</p>
+<p>&lt;div class="main-intro"&gt;</p>
+<p>&lt;p&gt;In the Single Name Hedge framework, the parameter &lt;b&gt;\(M_h^{SN}\)&lt;/b&gt; represents the residual contractual maturity of the hedging instrument. It is measured in years and determines the duration of the protection purchased.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="notation-box"&gt;</p>
+<p>&lt;p&gt;&lt;b&gt;Definition:&lt;/b&gt; \(M_h^{SN}\) is the remaining maturity of a single-name eligible BA-CVA hedge. Within the regulatory calculation, it acts as a direct weight: the longer the maturity of the hedge, the greater its contribution to the protection value \(SNH_c\).&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;h3&gt;The Role of Maturity in SNH&lt;/h3&gt;</p>
+<p>&lt;p&gt;The maturity of the hedge is a critical variable that ensures the time-horizon of the protection is appropriately reflected. In the BA-CVA formula, \(M_h^{SN}\) is multiplied by the hedge notional and its corresponding risk weight. This mathematical structure ensures that hedges are risk-sensitive; a 5-year CDS provides more capital-offset potential than a 1-year CDS, assuming all other factors are constant.&lt;/p&gt;</p>
+<p>&lt;hr&gt;</p>
+<p>&lt;h3&gt;Portfolio Maturity Application&lt;/h3&gt;</p>
+<p>&lt;p&gt;Below is the maturity schedule for the hedges in our walkthrough portfolio. These values represent the remaining life of each Credit Default Swap (CDS) as of the reporting date.&lt;/p&gt;</p>
+<p>&lt;table&gt;</p>
+<p>&lt;thead&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;th&gt;Reference Entity Name&lt;/th&gt;</p>
+<p>&lt;th&gt;Hedge Type&lt;/th&gt;</p>
+<p>&lt;th class="numeric"&gt;Maturity (\(M_h^{SN}\))&lt;/th&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;/thead&gt;</p>
+<p>&lt;tbody&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Alpha Bank Ltd&lt;/td&gt;</p>
+<p>&lt;td&gt;Direct Match&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;3.00&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Alpha Asset Management&lt;/td&gt;</p>
+<p>&lt;td&gt;Legally Related&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;2.50&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Atlantic Oil Co&lt;/td&gt;</p>
+<p>&lt;td&gt;Sector/Region Proxy&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;2.00&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;GlobalTech Holdings Inc&lt;/td&gt;</p>
+<p>&lt;td&gt;Legally Related&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;1.50&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Riverside Finance Ltd&lt;/td&gt;</p>
+<p>&lt;td&gt;Direct Match&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.50&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;/tbody&gt;</p>
+<p>&lt;/table&gt;</p>
+<p>&lt;hr&gt;</p>
+<p>&lt;!-- 7. DISCOUNT FACTOR --&gt;</p>
+<p>&lt;h2&gt;Discount Factor&lt;/h2&gt;</p>
+<p>&lt;div class="main-intro"&gt;</p>
+<p>&lt;p&gt;The &lt;b&gt;Supervisory Discount Factor (\(DF_h^{SN}\))&lt;/b&gt; is a mathematical adjustment used to determine the present value of a Single Name Hedge. Because CVA risk is a forward-looking metric, the regulator requires that both the exposure and the protection are discounted to a common reporting date.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="notation-box"&gt;</p>
+<p>&lt;p&gt;&lt;b&gt;Definition:&lt;/b&gt; \(DF_h^{SN}\) is derived from its remaining maturity (\(M_h^{SN}\)) using a flat supervisory interest rate of 5%. This ensures that the valuation of the hedge is time-consistent with the exposure values used in the \(SCVA_c\) calculation.&lt;/p&gt;</p>
+<p>&lt;p style="text-align: center;"&gt;</p>
+<p>\[ DF_h^{SN} = \frac{1 - e^{-0.05 \cdot M_h^{SN}}}{0.05 \cdot M_h^{SN}} \]</p>
+<p>&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;hr&gt;</p>
+<p>&lt;h3&gt;Portfolio Application&lt;/h3&gt;</p>
+<p>&lt;p&gt;The table below illustrates the calculated \(DF_h^{SN}\) for our reference portfolio, based on the maturities identified in the previous section.&lt;/p&gt;</p>
+<p>&lt;table&gt;</p>
+<p>&lt;thead&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;th&gt;Reference Entity Name&lt;/th&gt;</p>
+<p>&lt;th class="numeric"&gt;Maturity (\(M_h^{SN}\))&lt;/th&gt;</p>
+<p>&lt;th class="numeric"&gt;Discount Factor (\(DF_h^{SN}\))&lt;/th&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;/thead&gt;</p>
+<p>&lt;tbody&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Alpha Bank Ltd&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;3.00&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.9286&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Alpha Asset Management&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;2.50&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.9400&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Atlantic Oil Co&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;2.00&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.9516&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;GlobalTech Holdings Inc&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;1.50&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.9634&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Riverside Finance Ltd&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.50&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.9876&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;/tbody&gt;</p>
+<p>&lt;/table&gt;</p>
+<p>&lt;hr&gt;</p>
+<p>&lt;!-- 8. NOTIONAL --&gt;</p>
+<p>&lt;h2&gt;Notional&lt;/h2&gt;</p>
+<p>&lt;div class="main-intro"&gt;</p>
+<p>&lt;p&gt;The &lt;b&gt;Hedge Notional (\(B_h^{SN}\))&lt;/b&gt; represents the face value of the credit protection purchased. It is the scale of the risk mitigation, serving as the primary volume-based input in the Single Name Hedge formula.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="notation-box"&gt;</p>
+<p>&lt;p&gt;&lt;b&gt;Definition:&lt;/b&gt; \(B_h^{SN}\) is the notional of the single-name eligible BA-CVA hedge. For contingent credit default swaps, the regulatory notional must be determined by the current market value of the reference portfolio or instrument that the CDS is protecting.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;hr&gt;</p>
+<p>&lt;h3&gt;Portfolio Application&lt;/h3&gt;</p>
+<p>&lt;p&gt;The following table lists the hedge notionals for our reference portfolio entities, as defined in our technical data model.&lt;/p&gt;</p>
+<p>&lt;table&gt;</p>
+<p>&lt;thead&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;th&gt;Reference Entity Name&lt;/th&gt;</p>
+<p>&lt;th&gt;Hedge Type&lt;/th&gt;</p>
+<p>&lt;th class="numeric"&gt;Notional (\(B_h^{SN}\))&lt;/th&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;/thead&gt;</p>
+<p>&lt;tbody&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Alpha Bank Ltd&lt;/td&gt;</p>
+<p>&lt;td&gt;Direct Match&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;500.00&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Alpha Asset Management&lt;/td&gt;</p>
+<p>&lt;td&gt;Legally Related&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;300.00&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Atlantic Oil Co&lt;/td&gt;</p>
+<p>&lt;td&gt;Sector/Region Proxy&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;200.00&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;GlobalTech Holdings Inc&lt;/td&gt;</p>
+<p>&lt;td&gt;Legally Related&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;150.00&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Riverside Finance Ltd&lt;/td&gt;</p>
+<p>&lt;td&gt;Direct Match&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;1000.00&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;/tbody&gt;</p>
+<p>&lt;/table&gt;</p>
+<p>&lt;hr&gt;</p>
+<p>&lt;!-- 9. SNH CALCULATION --&gt;</p>
+<p>&lt;h2&gt;SNH Calculation&lt;/h2&gt;</p>
+<p>&lt;div class="main-intro"&gt;</p>
+<p>&lt;p&gt;With all regulatory parameters defined, we can now execute the &lt;b&gt;Single Name Hedge (\(SNH_c\))&lt;/b&gt; calculation. This step determines the technical offset value that will be used to reduce the counterparty’s standalone risk in the final capital aggregation.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;h3&gt;The Calculation Process&lt;/h3&gt;</p>
+<p>&lt;div class="formula-box"&gt;</p>
+<p>\[ SNH_c = \sum_{h \in c} (r_{hc} \cdot RW_h \cdot M_h^{SN} \cdot B_h^{SN} \cdot DF_h^{SN}) \]</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;hr&gt;</p>
+<p>&lt;h3&gt;Detailed Walkthrough: Portfolio Calculation&lt;/h3&gt;</p>
+<p>&lt;p&gt;The table below shows the granular multiplication for each hedge in our portfolio. Notice how the supervisory correlation (\(r_{hc}\)) acts as a haircut for proxy and related-entity hedges.&lt;/p&gt;</p>
+<p>&lt;table&gt;</p>
+<p>&lt;thead&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;th&gt;Hedge Reference&lt;/th&gt;</p>
+<p>&lt;th class="numeric"&gt;\(r_{hc}\)&lt;/th&gt;</p>
+<p>&lt;th class="numeric"&gt;\(RW_h\)&lt;/th&gt;</p>
+<p>&lt;th class="numeric"&gt;\(M_h^{SN}\)&lt;/th&gt;</p>
+<p>&lt;th class="numeric"&gt;\(B_h^{SN}\)&lt;/th&gt;</p>
+<p>&lt;th class="numeric"&gt;\(DF_h^{SN}\)&lt;/th&gt;</p>
+<p>&lt;th class="numeric"&gt;Value&lt;/th&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;/thead&gt;</p>
+<p>&lt;tbody&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Alpha Bank (Direct)&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;1.0&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;5.0%&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;3.00&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;500.00&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.9286&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;69.6450&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Alpha Asset Mgt (Sub)&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.8&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;5.0%&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;2.50&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;300.00&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.9400&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;28.2000&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Atlantic Oil (Proxy)&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.5&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;3.0%&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;2.00&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;200.00&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.9516&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;5.7096&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;GlobalTech (Parent)&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.8&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;5.5%&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;1.50&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;150.00&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.9634&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;9.5377&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Riverside Finance (Direct)&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;1.0&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;5.0%&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.50&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;1000.00&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.9876&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;24.6900&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;/tbody&gt;</p>
+<p>&lt;/table&gt;</p>
+<p>&lt;hr&gt;</p>
+<p>&lt;h3&gt;Final Aggregated \(SNH_c\) by Counterparty&lt;/h3&gt;</p>
+<p>&lt;p&gt;Finally, we sum the individual hedge values per counterparty to arrive at the total recognized protection \(SNH_c\).&lt;/p&gt;</p>
+<p>&lt;table&gt;</p>
+<p>&lt;thead&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;th&gt;Counterparty Name&lt;/th&gt;</p>
+<p>&lt;th&gt;Total Hedges&lt;/th&gt;</p>
+<p>&lt;th class="numeric"&gt;\(SNH_c\)&lt;/th&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;/thead&gt;</p>
+<p>&lt;tbody&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Alpha Bank Ltd&lt;/td&gt;</p>
+<p>&lt;td&gt;2&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;97.8450&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Northern Energy Corp&lt;/td&gt;</p>
+<p>&lt;td&gt;1&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;5.7096&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;GlobalTech Solutions&lt;/td&gt;</p>
+<p>&lt;td&gt;1&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;9.5377&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Riverside Finance Ltd&lt;/td&gt;</p>
+<p>&lt;td&gt;1&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;24.6900&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;/tbody&gt;</p>
+<p>&lt;/table&gt;</p>
+<p>&lt;hr&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/body&gt;</p>
+<p>&lt;/html&gt;</p>

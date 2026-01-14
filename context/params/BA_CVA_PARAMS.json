@@ -1,0 +1,255 @@
+{
+    "metadata": {
+        "name": "BA-CVA Parameters",
+        "regulation": "PRA Near-Final Rules (PS9/24, PS17/23)",
+        "rulebook_part": "Credit Valuation Adjustment Risk Part",
+        "jurisdiction": "United Kingdom",
+        "implementation_date": "2026-01-01",
+        "version": "1.0"
+    },
+    
+    "supervisory_scalars": {
+        "DS_BA_CVA": {
+            "value": 0.65,
+            "description": "Discount Scalar applied to final BA-CVA capital requirement"
+        },
+        "rho": {
+            "value": 0.50,
+            "description": "Supervisory correlation parameter for systematic/idiosyncratic split"
+        },
+        "beta": {
+            "value": 0.25,
+            "description": "Hedge recognition floor in Full BA-CVA (K_full = β × K_reduced + (1-β) × K_hedged)"
+        },
+        "supervisory_discount_rate": {
+            "value": 0.05,
+            "description": "Flat rate used in discount factor formula"
+        },
+        "index_hedge_scalar": {
+            "value": 0.70,
+            "description": "Multiplier applied to Table 1 risk weights for index hedges"
+        },
+        "maturity_floor": {
+            "value": 1.0,
+            "description": "1-year floor for uncollateralised netting sets"
+        }
+    },
+    
+    "alpha_values": {
+        "standard": {
+            "value": 1.4,
+            "applicable_to": "All counterparties except pension funds"
+        },
+        "pension_fund": {
+            "value": 1.0,
+            "applicable_to": "Pension fund counterparties only",
+            "capital_impact": "~28% linear reduction"
+        }
+    },
+    
+    "risk_weights": {
+        "SOV": {
+            "sector_code": "SOV",
+            "description": "Sovereigns including central banks and multilateral development banks",
+            "investment_grade": 0.005,
+            "high_yield_unrated": 0.020
+        },
+        "GOV": {
+            "sector_code": "GOV",
+            "description": "Local government, government-backed non-financials, education and public administration",
+            "investment_grade": 0.010,
+            "high_yield_unrated": 0.040
+        },
+        "FIN": {
+            "sector_code": "FIN",
+            "description": "Financials including government-backed financials, excluding pension funds",
+            "investment_grade": 0.050,
+            "high_yield_unrated": 0.120
+        },
+        "PEN": {
+            "sector_code": "PEN",
+            "description": "Pension funds",
+            "investment_grade": 0.035,
+            "high_yield_unrated": 0.085
+        },
+        "IND": {
+            "sector_code": "IND",
+            "description": "Basic materials, energy, industrials, agriculture, manufacturing, mining and quarrying",
+            "investment_grade": 0.030,
+            "high_yield_unrated": 0.070
+        },
+        "CON": {
+            "sector_code": "CON",
+            "description": "Consumer goods and services, transportation and storage, administrative and support service activities",
+            "investment_grade": 0.030,
+            "high_yield_unrated": 0.085
+        },
+        "TEC": {
+            "sector_code": "TEC",
+            "description": "Technology, telecommunications",
+            "investment_grade": 0.020,
+            "high_yield_unrated": 0.055
+        },
+        "HLT": {
+            "sector_code": "HLT",
+            "description": "Health care, utilities, professional and technical activities",
+            "investment_grade": 0.015,
+            "high_yield_unrated": 0.050
+        },
+        "OTH": {
+            "sector_code": "OTH",
+            "description": "Other sector",
+            "investment_grade": 0.050,
+            "high_yield_unrated": 0.120
+        }
+    },
+    
+    "hedge_correlations": {
+        "direct": {
+            "r_hc": 1.00,
+            "hmac_factor": 0.00,
+            "description": "Hedge references counterparty directly"
+        },
+        "legally_related": {
+            "r_hc": 0.80,
+            "hmac_factor": 0.36,
+            "description": "Hedge references parent/subsidiary of counterparty"
+        },
+        "sector_region": {
+            "r_hc": 0.50,
+            "hmac_factor": 0.75,
+            "description": "Hedge references entity in same sector and region"
+        }
+    },
+    
+    "discount_factor_rules": {
+        "imm_firms": {
+            "df_value": 1.0,
+            "condition": "Firm has PRA Article 283 permission for Internal Model Method"
+        },
+        "non_imm_firms": {
+            "formula": "(1 - exp(-0.05 * M_NS)) / (0.05 * M_NS)",
+            "supervisory_rate": 0.05
+        }
+    },
+    
+    "maturity_rules": {
+        "note": "M_NS is an INPUT to BA-CVA, derived from other regulatory frameworks",
+        "imm_firms": {
+            "source": "IMM model output per CRR Article 162(2)(g)"
+        },
+        "non_imm_firms": {
+            "source": "Notional-weighted average per CRR Article 162(2)(b)",
+            "formula": "M_NS = Σ(Notional_i × M_i) / Σ(Notional_i)",
+            "floor": "1-year for uncollateralised",
+            "cap": "Longest contractual remaining maturity (no 5-year cap)"
+        }
+    },
+    
+    "eligible_hedges": {
+        "single_name": {
+            "instrument_types": [
+                "Single-name CDS",
+                "Single-name contingent CDS"
+            ],
+            "reference_requirements": {
+                "direct": "References counterparty c directly",
+                "legally_related": "References parent/subsidiary of counterparty c",
+                "sector_region": "References entity in same sector AND region as counterparty c"
+            }
+        },
+        "index": {
+            "instrument_types": [
+                "Index CDS (e.g., iTraxx, CDX)"
+            ],
+            "risk_weight_rules": {
+                "homogeneous": "Table 1 RW × 0.70 (all constituents same sector and credit quality)",
+                "heterogeneous": "Name-weighted average of Table 1 RWs × 0.70"
+            },
+            "portfolio_connection": "NONE - index composition based on actual index, NOT portfolio",
+            "purpose": "Offsets SYSTEMATIC CVA risk (market-wide credit spread movements)",
+            "note": "IH reduces only the systematic component in K_hedged formula"
+        }
+    },
+    
+    "formulas": {
+        "scva_c": {
+            "formula": "(1/alpha) * RW_c * sum(M_NS * EAD_NS * DF_NS)",
+            "description": "Standalone CVA for counterparty c"
+        },
+        "df_ns": {
+            "imm": "1.0",
+            "non_imm": "(1 - exp(-0.05 * M_NS)) / (0.05 * M_NS)",
+            "description": "Supervisory discount factor"
+        },
+        "k_reduced": {
+            "formula": "sqrt((rho * sum(SCVA_c))^2 + (1 - rho^2) * sum(SCVA_c^2))",
+            "description": "Reduced BA-CVA aggregation"
+        },
+        "k_full": {
+            "formula": "beta * K_reduced + (1 - beta) * K_hedged",
+            "description": "Full BA-CVA with hedging"
+        },
+        "k_hedged": {
+            "formula": "sqrt((rho * sum(SCVA_c - SNH_c) - IH)^2 + (1 - rho^2) * sum(SCVA_c - SNH_c)^2 + sum(HMAC_c))",
+            "description": "Hedged capital component"
+        },
+        "snh_c": {
+            "formula": "sum(r_hc * RW_h * M_h_SN * B_h_SN * DF_h_SN)",
+            "description": "Single-name hedge benefit for counterparty c"
+        },
+        "ih": {
+            "formula": "sum(RW_i_ind * M_i_ind * B_i_ind * DF_i_ind)",
+            "description": "Index hedge benefit"
+        },
+        "hmac_c": {
+            "formula": "sum((1 - r_hc^2) * (RW_h * M_h_SN * B_h_SN * DF_h_SN)^2)",
+            "description": "Hedge mismatch adjustment"
+        },
+        "final_capital_reduced": {
+            "formula": "DS_BA_CVA * K_reduced",
+            "simplified": "0.65 * K_reduced"
+        },
+        "final_capital_full": {
+            "formula": "DS_BA_CVA * K_full",
+            "simplified": "0.65 * (0.25 * K_reduced + 0.75 * K_hedged)"
+        }
+    },
+    
+    "special_treatments": {
+        "pension_funds": {
+            "alpha_adjustment": "Use alpha = 1.0 instead of 1.4",
+            "sector_code": "PEN",
+            "transitional": "Legacy trades benefit from 2026-2029 phase-in"
+        },
+        "unrated_central_banks": {
+            "rule": "May be mapped to relevant sovereign risk weight",
+            "typical_rw_ig": 0.005,
+            "typical_rw_hy": 0.020
+        },
+        "sfts": {
+            "inclusion_criteria": "Fair-valued AND CVA risk material",
+            "maturity_floor": "No 1-year floor for margined SFTs"
+        }
+    },
+    
+    "reporting": {
+        "disclosure_template": "UKB CVA1",
+        "reporting_template": "CAP 26.02",
+        "mandatory_breakdowns": [
+            "Systematic component",
+            "Idiosyncratic component",
+            "By sector bucket"
+        ]
+    },
+    
+    "transitional_provisions": {
+        "scope": "Legacy trades entered before 1 January 2026",
+        "eligible_counterparties": [
+            "Pension funds (previously exempt)",
+            "Non-financial counterparties (previously exempt)"
+        ],
+        "phase_in_start": "2026",
+        "phase_in_end": "2029"
+    }
+}

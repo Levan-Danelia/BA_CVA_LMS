@@ -1,0 +1,686 @@
+# Technical Analysis of Single-Name Hedging Mechanisms and Misalignment Adjustments under PRA BA-CVA
+
+## 1. Architectural Framework of the Full Basic Approach
+
+The Basic Approach for Credit Valuation Adjustment (BA-CVA), as
+delineated in the Prudential Regulation Authority (PRA) Policy
+Statements PS17/23 and PS9/24, establishes a bifurcated capital adequacy
+framework designed to capture the risk of mark-to-market losses
+associated with the deterioration of counterparty creditworthiness.
+While the Reduced BA-CVA offers a simplified, conservative calculation
+for unhedged portfolios, the Full BA-CVA provides a mechanism for firms
+to recognize the risk-mitigating effects of eligible hedging
+instruments. This analysis focuses exclusively on the mechanics of the
+Full BA-CVA, specifically examining the mathematical and regulatory
+treatment of single-name hedges (SNH) and the penalties associated with
+basis risk and misalignment.
+
+The Full BA-CVA does not allow for a simple subtraction of hedge
+notionals from exposure notionals. Instead, it employs a structured
+aggregation function that incorporates supervisory correlation
+parameters to distinguish between systematic and idiosyncratic risk
+components. The efficacy of single-name hedging strategies is
+constrained by a supervisory floor and penalized for imperfect alignment
+through the Hedging Mismatch Adjustment (HMAC).
+
+### 1.1 The Capital Aggregation Function (**\$K\_{full}\$**)
+
+The determination of the final Own Funds Requirement (OFR) under the
+Full BA-CVA is governed by a weighted aggregation formula that blends
+the capital requirements of the unhedged portfolio (\$K\_{reduced}\$)
+with those of the hedged portfolio (\$K\_{hedged}\$). This formulation
+ensures that capital relief is granted only partially, maintaining a
+non-negligible capital buffer even in the presence of extensive hedging.
+
+The overarching formula for the Full BA-CVA capital charge is expressed
+as:
+
+\$\$K\_{full} = \\beta \\cdot K\_{reduced} + (1 - \\beta) \\cdot
+K\_{hedged}\$\$
+
+In this equation, the parameter \$\\beta\$ (Beta) serves as a critical
+supervisory lever. Set rigidly at **0.25** (25%), \$\\beta\$ imposes a
+floor on the capital benefit derived from hedging.^1^ By weighting the
+unhedged \$K\_{reduced}\$ term at 25%, the regulator ensures that firms
+must capitalize at least a quarter of the gross systematic and
+idiosyncratic risk of their derivatives portfolio, regardless of the
+theoretical effectiveness of their hedges. Consequently, the
+\$K\_{hedged}\$ term---where single-name hedges are mathematically
+recognized---can only influence 75% of the total capital outcome.
+
+This structure reflects a regulatory skepticism regarding the ability of
+standardized formulas to perfectly capture the residual risks inherent
+in hedging complex over-the-counter (OTC) derivatives. It explicitly
+accounts for the potential failure of hedge correlations during periods
+of systemic stress, where historical relationships between reference
+entities often break down.
+
+### 1.2 The Mathematical Composition of **\$K\_{hedged}\$**
+
+The \$K\_{hedged}\$ component is the primary engine for hedge
+recognition. It employs a square-root-of-sum-of-squares (SRSS)
+aggregation methodology that splits counterparty risk into two
+orthogonal vectors: systematic risk and idiosyncratic risk.
+Understanding this split is essential for analyzing how single-name
+hedges reduce capital.
+
+The formula for \$K\_{hedged}\$ is defined in the PRA Rulebook as:
+
+\$\$K\_{hedged} = \\sqrt{ \\left( \\rho \\cdot \\sum\_{c} (SCVA_c -
+SNH_c) - IH \\right)\^2 + (1 - \\rho\^2) \\cdot \\sum\_{c} (SCVA_c -
+SNH_c)\^2 + \\sum\_{c} HMAC_c }\$\$
+
+This formula reveals the dual impact of single-name hedges (\$SNH_c\$):
+
+1.  **Systematic Risk Reduction:** The first term under the square root,
+    > \$\\left( \\rho \\cdot \\sum (SCVA_c - SNH_c) - IH \\right)\^2\$,
+    > represents the portfolio\'s exposure to general market credit
+    > spread movements. The supervisory correlation parameter \$\\rho\$
+    > is fixed at **0.50** (50%).^1^ Here, the single-name hedge
+    > \$SNH_c\$ directly offsets the Standalone CVA (\$SCVA_c\$) for
+    > counterparty \$c\$. Because this term is squared *after*
+    > summation, hedges on one counterparty can offset exposures to
+    > other counterparties, provided they reduce the net systematic
+    > exposure of the portfolio.
+
+2.  **Idiosyncratic Risk Reduction:** The second term, \$(1 - \\rho\^2)
+    > \\cdot \\sum (SCVA_c - SNH_c)\^2\$, captures the specific default
+    > risk associated with individual counterparties. With \$\\rho =
+    > 0.5\$, the weight \$(1 - \\rho\^2)\$ equals **0.75**. In this
+    > component, the netting of \$SNH_c\$ against \$SCVA_c\$ occurs
+    > *before* squaring and summation. This implies that single-name
+    > hedges are highly effective at reducing the idiosyncratic capital
+    > charge, as they neutralize the large squared terms generated by
+    > significant individual exposures.
+
+Crucially, the formula includes a third, additive term: \$\\sum
+HMAC_c\$. The Hedging Mismatch Adjustment (\$HMAC_c\$) is a penalty term
+that sits outside the square root aggregation (in some representations)
+or is added to the variance. In the PRA\'s specific implementation, it
+is treated as a direct add-on for basis risk, ensuring that imperfect
+hedges (proxies) increase the capital requirement linearly, without the
+benefit of portfolio diversification.^1^
+
+### 1.3 The Discount Scalar (**\$DS\_{BA-CVA}\$**)
+
+It is important to note that the final output of the BA-CVA calculation
+is subject to a Discount Scalar (\$DS\_{BA-CVA}\$) of **0.65**.^1^ This
+scalar is applied to the aggregate capital requirement (\$K\_{full}\$)
+to calibrate the standardized approach against modeled outcomes and
+prevent punitive capital spikes relative to the outgoing methods. While
+the scalar reduces the absolute capital figure, it does not alter the
+relative mechanics or incentives of single-name hedging. The ratio of
+hedge recognition to misalignment penalty remains constant regardless of
+the scalar.
+
+## 2. Mechanics of the Single-Name Hedge (**\$SNH_c\$**) Calculation
+
+The variable \$SNH_c\$ allows firms to quantify the risk-mitigating
+value of eligible single-name credit default swaps (CDS) and contingent
+CDS. This value is not simply the notional amount of the derivative;
+rather, it is a risk-weighted, discounted, and maturity-adjusted figure
+that is further scaled by a correlation parameter reflecting the quality
+of the match between the hedge and the underlying counterparty exposure.
+
+### 2.1 The **\$SNH_c\$** Formula
+
+According to Article 4.7 of the relevant PRA Rulebook section
+(referenced in ^1^ and ^1^), the quantity \$SNH_c\$ must be calculated
+as follows:
+
+\$\$SNH_c = \\sum\_{h \\in c} r\_{hc} \\cdot RW_h \\cdot M_h\^{SN}
+\\cdot B_h\^{SN} \\cdot DF_h\^{SN}\$\$
+
+This summation aggregates all eligible hedges \$h\$ that have been
+mapped to counterparty \$c\$. Each component of this formula is
+rigorously defined to ensure consistency with the calculation of the
+underlying exposure (\$SCVA_c\$).
+
+### 2.2 Component Analysis
+
+#### 2.2.1 Supervisory Correlation (**\$r\_{hc}\$**)
+
+The parameter \$r\_{hc}\$ is the most critical variable for determining
+the efficiency of a hedge. It represents the supervisory correlation
+between the credit spread of the counterparty \$c\$ and the credit
+spread of the hedging instrument \$h\$.
+
+-   **Regulatory Function:** It acts as a scaling factor for the hedge
+    > notional. A correlation of 100% allows the full risk-weighted
+    > notional to offset the exposure. Lower correlations (80% or 50%)
+    > reduce the recognized hedging benefit linearly within the
+    > \$SNH_c\$ term.
+
+-   **Prescriptive Nature:** Unlike internal models that might estimate
+    > historical correlations, the BA-CVA mandates the use of specific
+    > values based on the legal and sectoral relationship between the
+    > entities. These values are strictly limited to 100%, 80%, and
+    > 50%.^3^
+
+#### 2.2.2 Supervisory Risk Weight of the Hedge (**\$RW_h\$**)
+
+The risk weight \$RW_h\$ reflects the volatility of the credit spread of
+the reference name of the hedging instrument.
+
+-   **Determination:** This value is taken from the same supervisory
+    > Table 1 used to assign risk weights to counterparties
+    > (\$RW_c\$).^1^
+
+-   **Mismatch Implications:** In a perfect hedge, the reference entity
+    > of the CDS is the counterparty itself, meaning \$RW_h = RW_c\$.
+    > However, in proxy hedging scenarios, \$RW_h\$ is determined by the
+    > sector and credit quality of the *hedge\'s reference entity*. This
+    > ensures that if a firm hedges a High Yield counterparty (\$RW_c =
+    > 12\\%\$) with an Investment Grade index proxy or single-name proxy
+    > (\$RW_h = 5\\%\$), the hedge recognition in \$SNH_c\$ is
+    > appropriately lower, reflecting the lower volatility (and thus
+    > lower protection value) of the investment grade instrument against
+    > the high-yield exposure.^2^
+
+#### 2.2.3 Effective Maturity of the Hedge (**\$M_h\^{SN}\$**)
+
+\$M_h\^{SN}\$ represents the remaining maturity of the single-name
+eligible BA-CVA hedge, expressed in years.
+
+-   **Calculation:** This input must reflect the actual contractual
+    > remaining maturity of the hedging instrument.
+
+-   **Interaction with Exposure Maturity:** The underlying exposure term
+    > (\$SCVA_c\$) utilizes the netting set effective maturity
+    > (\$M\_{NS}\$). If the hedge maturity \$M_h\^{SN}\$ is shorter than
+    > \$M\_{NS}\$, the hedge provides only partial duration coverage.
+    > The formula captures this linearly: a shorter \$M_h\^{SN}\$
+    > results in a smaller \$SNH_c\$ value, reducing the offset against
+    > the larger \$SCVA_c\$ term. This creates a \"maturity mismatch\"
+    > penalty implicit in the subtraction logic.^1^
+
+#### 2.2.4 Notional of the Hedge (**\$B_h\^{SN}\$**)
+
+\$B_h\^{SN}\$ is the nominal amount of the single-name eligible BA-CVA
+hedge.
+
+-   **Standard CDS:** For standard credit default swaps, this is the
+    > face value of the protection purchased.
+
+-   **Contingent CDS:** For single-name contingent credit default swaps,
+    > the rules specify that the notional must be determined by the
+    > **current market value** of the reference portfolio or instrument.
+    > This requirement is crucial for contingent hedges, as the
+    > protection they offer is dynamic and dependent on the valuation of
+    > the underlying assets. Using the current market value ensures that
+    > the hedge notional reflects the active economic exposure at the
+    > time of the capital calculation.^1^
+
+#### 2.2.5 Supervisory Discount Factor (**\$DF_h\^{SN}\$**)
+
+The supervisory discount factor aligns the time value of money of the
+hedge with the regulatory assumptions used for the exposure.
+
+-   Formula:\
+    > \
+    > \$\$DF_h\^{SN} = \\frac{1 - e\^{-0.05 \\cdot M_h\^{SN}}}{0.05
+    > \\cdot M_h\^{SN}}\$\$
+
+-   **Rate:** The formula utilizes a fixed supervisory discount rate of
+    > **5% (0.05)**. This rate is consistent with the discount factor
+    > applied to non-IMM firm exposures in the \$SCVA_c\$
+    > calculation.^1^
+
+-   **Function:** The discount factor effectively calculates the present
+    > value of an annuity (the spread payments) over the life of the
+    > hedge. As the maturity \$M_h\^{SN}\$ increases, the discount
+    > factor \$DF_h\^{SN}\$ decreases, reflecting the reduced present
+    > value sensitivity of distant cash flows relative to the notional.
+    > This ensures that long-dated hedges are not over-weighted in the
+    > capital calculation compared to the actual economic protection
+    > they provide in present value terms.
+
+## 3. Supervisory Correlation Parameters (**\$r\_{hc}\$**) and Basis Risk Hierarchy
+
+The BA-CVA framework rejects the use of internal model-based correlation
+estimates for hedge recognition. Instead, it enforces a rigid hierarchy
+of correlation parameters (\$r\_{hc}\$) that categorizes hedging
+relationships into three tiers of basis risk. This hierarchy is
+fundamental to the calculation of both the hedge benefit (\$SNH_c\$) and
+the misalignment penalty (\$HMAC\$).
+
+The specific values for \$r\_{hc}\$ are mandated as follows ^3^:
+
+  **Correlation Bucket (rhc​)**   **Eligibility Criteria**   **Relationship Definition**                                                                 **Basis Risk Assessment**
+  ------------------------------- -------------------------- ------------------------------------------------------------------------------------------- -----------------------------------------------------------------------------------------------------------
+  **100%**                        **Direct Reference**       The hedge reference entity is the exact counterparty \$c\$.                                 **Zero Basis Risk:** The hedge is perfectly aligned with the credit risk of the counterparty.
+  **80%**                         **Legally Related**        The reference entity is legally related to counterparty \$c\$ (e.g., Parent/Subsidiary).    **Moderate Basis Risk:** Recognizes strong economic links but allows for idiosyncratic spread divergence.
+  **50%**                         **Sector & Region**        The reference entity belongs to the same **Sector** and **Region** as counterparty \$c\$.   **High Basis Risk:** Proxy hedging using a peer entity. Substantial residual risk remains.
+
+### 3.1 Tier 1: Direct Reference (100% Correlation)
+
+-   **Definition:** This bucket is exclusive to hedges where the
+    > reference entity of the CDS matches the counterparty of the
+    > netting set.
+
+-   **Formulaic Impact:** With \$r\_{hc} = 1.0\$, the full risk-weighted
+    > discounted notional of the hedge is recognized in the \$SNH_c\$
+    > term.
+
+-   **HMAC Implications:** The misalignment term in the HMAC calculation
+    > depends on \$(1 - r\_{hc}\^2)\$. For direct hedges, \$(1 - 1\^2) =
+    > 0\$. Therefore, **no HMAC penalty** is applied. This design
+    > creates a maximum regulatory incentive for firms to hedge using
+    > direct-reference instruments, as they provide the highest capital
+    > relief with zero penalty add-on.^2^
+
+### 3.2 Tier 2: Legally Related Entities (80% Correlation)
+
+-   **Definition:** This bucket applies when the hedge references an
+    > entity with a defined legal relationship to the counterparty. The
+    > regulations specifically cite cases where the reference name and
+    > the counterparty are either a parent and its subsidiary, or two
+    > subsidiaries of a common parent.^3^
+
+-   **Economic Rationale:** Legally related entities typically exhibit
+    > high correlation in credit spreads due to shared governance,
+    > capital structures, and cross-default clauses. However, they are
+    > not identical; distinct operational risks or ring-fencing can
+    > cause spreads to decouple. The 80% correlation captures this
+    > potential divergence.
+
+-   **Formulaic Impact:** The recognized notional in \$SNH_c\$ is scaled
+    > by 0.80.
+
+-   **HMAC Implications:** The penalty factor becomes \$(1 - 0.80\^2) =
+    > (1 - 0.64) = 0.36\$. Firms must hold additional capital equivalent
+    > to 36% of the squared risk-weighted hedge value to cover the basis
+    > risk between the related entities.
+
+### 3.3 Tier 3: Same Sector and Region (50% Correlation)
+
+-   **Definition:** This is the \"proxy hedge\" bucket. It applies when
+    > the hedge references an entity that is neither the counterparty
+    > nor legally related, but falls within the same **Sector** and
+    > **Region** buckets.^2^
+
+-   **Operational Context:** This tier is vital for managing the risk of
+    > illiquid counterparties (e.g., small corporate clients) where no
+    > direct CDS market exists. Firms often use liquid CDS on large,
+    > stable peers (e.g., using a Vodafone CDS to hedge a smaller
+    > telecom exposure) to mitigate general sector/region credit spread
+    > widening.
+
+-   **Formulaic Impact:** The recognized notional in \$SNH_c\$ is scaled
+    > by 0.50. This effectively halves the recognized mitigation value
+    > of the hedge in the systematic and idiosyncratic calculations.
+
+-   **HMAC Implications:** The penalty factor is \$(1 - 0.50\^2) = (1 -
+    > 0.25) = 0.75\$. This is a severe penalty; 75% of the variance
+    > contribution of the hedge is added back as a standalone charge.
+    > This high cost reflects the regulator\'s view that proxy hedging
+    > is an imperfect science and often leaves the firm exposed to
+    > significant idiosyncratic risk of the counterparty.^1^
+
+## 4. The Hedging Mismatch Adjustment (HMAC)
+
+The Hedging Mismatch Adjustment (HMAC) is the corrective mechanism
+within the Full BA-CVA that quantifies the \"safety tax\" on proxy
+hedging. It ensures that the capital relief granted via the \$SNH_c\$
+term is partially clawed back to account for the basis risk inherent in
+correlations of less than 100%.
+
+### 4.1 The HMAC Formula
+
+The calculation of HMAC is additive across all counterparties and
+hedges. Unlike the diversification allowed in the main \$K\_{hedged}\$
+formula, HMAC aggregates linearly. The formula is defined as:
+
+\$\$HMAC = \\sum\_{c} \\sum\_{h \\in c} (1 - r\_{hc}\^2) \\cdot \\left(
+RW_h \\cdot M_h\^{SN} \\cdot B_h\^{SN} \\cdot DF_h\^{SN} \\right)\^2\$\$
+
+This mathematical structure drives several key risk management
+implications ^1^:
+
+### 4.2 Structural Characteristics of the Penalty
+
+1.  **Linear Aggregation (No Diversification):** The use of a simple
+    > summation (\$\\sum\$) means that basis risks are treated as
+    > additive. Misalignment in a hedge for Counterparty A cannot be
+    > offset by alignment or misalignment in Counterparty B. Every proxy
+    > hedge contributes positively to the total capital charge.
+
+2.  **Quadratic Scaling:** The penalty scales with the **square** of the
+    > risk-weighted notional term \$\\left( RW_h \\cdot M_h\^{SN} \\cdot
+    > B_h\^{SN} \\cdot DF_h\^{SN} \\right)\^2\$.
+
+    -   *Significance:* This convexity means that large notional proxy
+        > hedges are penalized disproportionately heavily compared to
+        > smaller ones. Doubling the size of a proxy hedge results in a
+        > fourfold increase in the HMAC contribution (before the
+        > correlation factor). This discourages the use of massive
+        > single-name proxies to hedge portfolio-wide risks, favoring
+        > more granular hedging strategies.
+
+3.  **Risk Weight Sensitivity:** The penalty is highly sensitive to the
+    > volatility of the hedging instrument (\$RW_h\$). Proxy hedging
+    > using a volatile, high-risk-weight instrument (e.g., High Yield
+    > Financials, \$RW=12\\%\$) incurs a dramatically higher HMAC charge
+    > than hedging with a stable instrument (e.g., Investment Grade
+    > Sovereign, \$RW=0.5\\%\$), even if the correlation tier (50%) is
+    > identical. The squared risk weight term (\$RW_h\^2\$) amplifies
+    > this difference.
+
+4.  **Correlation Sensitivity:** The term \$(1 - r\_{hc}\^2)\$
+    > determines the proportion of the squared hedge value that is
+    > penalized.
+
+    -   At \$r\_{hc} = 100\\%\$, penalty = 0%.
+
+    -   At \$r\_{hc} = 80\\%\$, penalty = 36%.
+
+    -   At \$r\_{hc} = 50\\%\$, penalty = 75%.\
+        > The jump from legal-relation hedging to sector-proxy hedging
+        > roughly doubles the misalignment penalty factor.
+
+## 5. Sector Definitions and Risk Weight Mapping (Table 1)
+
+To determine the appropriate Supervisory Risk Weight (\$RW_c\$ for
+counterparties, \$RW_h\$ for hedges) and to validate eligibility for the
+50% \"Same Sector\" correlation bucket, firms must classify entities
+according to the buckets specified in \"Table 1\" of the PRA Rulebook.
+The assignment depends on the entity\'s sector and its credit quality
+step (Investment Grade vs. High Yield/Unrated).
+
+### 5.1 Supervisory Risk Weights (**\$RW\$**)
+
+The research material provides a comprehensive mapping of these sectors
+and their associated risk weights ^1^:
+
+  **Sector Bucket**                                      **Investment Grade (IG) Weight**   **High Yield (HY) / Unrated Weight**
+  ------------------------------------------------------ ---------------------------------- ---------------------------------------------
+  **Sovereigns** (Central Govts, Central Banks, MDBs)    **0.5%**                           **2.0% - 3.0%** (varies by specific rating)
+  **Local Government / PSEs** (Public Sector Entities)   **1.0%**                           **4.0%**
+  **Financials** (Banks, Insurers, Pension Funds\*)      **5.0%**                           **12.0%**
+  **Basic Materials / Energy / Industrials**             **3.0%**                           **7.0%**
+  **Consumer Goods / Services**                          **3.0%**                           **8.5%**
+  **Technology / Telecommunications**                    **2.0%**                           **5.5%**
+  **Health Care / Utilities**                            **1.5%**                           **5.0%**
+  **Other Sector**                                       **5.0%**                           **12.0%**
+
+-   **Financials Note:** The \"Financials\" bucket is broad,
+    > encompassing credit institutions, investment firms, and
+    > re/insurance undertakings. The 12.0% risk weight for HY/Unrated
+    > Financials is notably punitive, making proxy hedging of
+    > lower-quality financial counterparties extremely expensive
+    > regarding HMAC (due to the \$RW\^2\$ term).
+
+-   **Pension Funds:** While specific CVA exemptions or Alpha factor
+    > adjustments (1.0 vs 1.4) exist for Pension Funds in the UK rules
+    > ^2^, for the purpose of risk weighting in Table 1, they generally
+    > fall within the Financials bucket unless a specific sub-bucket is
+    > designated in the final instrument.
+
+-   **Unrated Central Banks:** These are mapped to the risk weight of
+    > the relevant central government (Sovereign).^2^
+
+### 5.2 Application to Misalignment
+
+For a hedge to qualify for the 50% correlation bucket:
+
+1.  **Sector Match:** The hedge reference entity must map to the *exact
+    > same row* in Table 1 as the counterparty. A hedge referencing a
+    > \"Technology\" firm cannot be used to proxy a \"Consumer Goods\"
+    > counterparty with 50% correlation; it would be treated as having
+    > 0% correlation (ineligible).
+
+2.  **Credit Quality Indifference:** The correlation requirement
+    > specifies \"Same Sector,\" not \"Same Credit Quality.\" Thus, a
+    > firm *could* theoretically hedge a High Yield Energy counterparty
+    > with an Investment Grade Energy CDS. However, the \$RW_h\$ used in
+    > the calculation would be that of the IG hedge (3.0%), while the
+    > exposure \$RW_c\$ would be that of the HY counterparty (7.0%).
+    > This creates a risk weight mismatch that naturally reduces the
+    > hedge effectiveness in the systematic component, independent of
+    > the correlation parameter.
+
+## 6. Region Classifications and Boundaries
+
+The second condition for the 50% correlation bucket is that the hedge
+reference entity must reside in the same **Region** as the counterparty.
+The definition of \"Region\" in the BA-CVA framework aligns with the
+broader Basel 3.1 and Market Risk (FRTB) definitions to ensure
+consistency.
+
+### 6.1 Defined Geographic Regions
+
+The regulatory text identifies two primary regional aggregations for the
+purpose of risk bucketing and correlation ^1^:
+
+1.  **Advanced Economies:** This region is explicitly defined to include
+    > a specific list of countries/jurisdictions:
+
+    -   Canada
+
+    -   United States
+
+    -   Mexico
+
+    -   Euro Area (collectively)
+
+    -   United Kingdom
+
+    -   Norway, Sweden, Denmark, Switzerland (Non-Euro Western Europe)
+
+    -   Japan
+
+    -   Australia, New Zealand (Oceania)
+
+    -   Singapore
+
+    -   Hong Kong SAR
+
+2.  **Emerging Markets (Rest of World):** Defined by exclusion; this
+    > bucket comprises all economies not listed in the Advanced
+    > Economies set.
+
+### 6.2 Application to Proxy Hedging
+
+The binary nature of this definition (Advanced vs. Emerging) has
+significant implications for the \"Same Region\" test (\$r\_{hc} =
+50\\%\$):
+
+-   **Intra-Region Flexibility:** If the regulation treats \"Advanced
+    > Economies\" as a single regional bucket for CVA purposes (as it
+    > does for Equity indices in Table 9 of ^6^), then a UK bank could
+    > potentially hedge a German counterparty (Advanced) using a US bank
+    > CDS (Advanced) and qualify for the 50% correlation, as both are
+    > \"Advanced Economies.\"
+
+-   **Inter-Region Prohibition:** A hedge referencing a US corporate
+    > (Advanced) applied to a Brazilian corporate exposure (Emerging)
+    > would fail the \"Same Region\" test. The correlation would drop to
+    > 0%, rendering the hedge ineligible for any capital relief under
+    > BA-CVA.
+
+-   **Granularity Risk:** It is crucial to verify the specific statutory
+    > instrument\'s granularity. While \"Advanced Economies\" is the
+    > standard grouping, if the final PRA rulebook enforces a stricter
+    > \"continent-based\" or \"country-based\" region definition for
+    > *single-name* proxies (distinct from index buckets), the
+    > flexibility would decrease. However, based on the provided
+    > snippets linking CVA definitions to Market Risk standards, the
+    > Advanced/Emerging split is the operative boundary.^1^
+
+## 7. Currency Mismatch: Explicit vs. Implicit Treatment
+
+A critical technical nuance in the BA-CVA framework is the handling of
+currency mismatch between the hedging instrument and the underlying
+exposure. Unlike the Counterparty Credit Risk (CCR) framework, the
+BA-CVA SNH formula does not include an explicit foreign exchange (FX)
+haircut variable.
+
+### 7.1 Absence of Explicit Haircut (**\$H\_{fx}\$**)
+
+Reviewing the \$SNH_c\$ and \$HMAC\$ formulas confirms the absence of a
+currency mismatch multiplier or haircut term (often denoted as
+\$H\_{fx}\$ in collateral haircuts).
+
+-   **Formula Inputs:** The inputs are strictly: Correlation
+    > (\$r\_{hc}\$), Risk Weight (\$RW\$), Maturity (\$M\$), Notional
+    > (\$B\$), and Discount Factor (\$DF\$).
+
+-   **No FX Parameter:** There is no parameter reducing the eligible
+    > notional based on FX volatility (e.g., reducing the notional by 8%
+    > for a 10-day hold). This implies that a USD-denominated CDS used
+    > to hedge a GBP-denominated exposure is recognized at its
+    > spot-converted notional value without a specific \"currency
+    > mismatch\" deduction *within the CVA formula itself*.^2^
+
+### 7.2 Implicit Treatment via Correlation
+
+The regulatory logic treats currency mismatch as a subsidiary component
+of basis risk, subsumed under the correlation parameter \$r\_{hc}\$.
+
+-   **100% Correlation:** If a firm buys a CDS on Entity X (USD) to
+    > hedge an exposure to Entity X (GBP), the entity match drives the
+    > 100% correlation. The regulation prioritizes the credit spread
+    > driver (the default risk of Entity X) over the currency of the
+    > settlement.
+
+-   **Basis Risk Assumption:** The framework implicitly assumes that the
+    > credit spread of Entity X in USD is highly correlated with the
+    > credit spread of Entity X in GBP. While a cross-currency basis
+    > exists, it is not penalized with a specific haircut in the
+    > *Single-Name Hedge* calculation.
+
+### 7.3 Distinction from Retail/Collateral Definitions
+
+The research material highlights a \"Currency Mismatch Multiplier\"
+(1.5x) and \"Currency Mismatch Haircuts\" (8%) in other contexts, which
+must be clearly distinguished from SNH:
+
+-   **Retail/Mortgages:** The 1.5x multiplier applies to *unhedged*
+    > borrowers whose income currency differs from the loan currency.^7^
+    > This is a credit risk parameter (PD/LGD adjustment), irrelevant to
+    > CVA hedges.
+
+-   **Collateral (CRM):** In the calculation of Exposure at Default
+    > (EAD), collateral posted in a different currency is subject to an
+    > 8% haircut (\$H\_{fx}\$).^4^
+
+    -   *Interaction:* This haircut *increases* the \$EAD\$ (or
+        > \$SCVA_c\$) derived from the netting set. Thus, while the
+        > *hedge* (\$SNH_c\$) doesn\'t suffer a haircut, the *exposure*
+        > (\$SCVA_c\$) effectively increases if the collateral covering
+        > it has a currency mismatch. This increases the net capital
+        > charge indirectly.
+
+## 8. Operational Mechanics: Maturity and Notional Adjustments
+
+Beyond the correlation and sector constraints, the operational inputs
+for Maturity and Notional define the magnitude of hedge recognition.
+
+### 8.1 Maturity Mismatch Mechanics
+
+The BA-CVA calculates hedge duration (\$M_h\^{SN}\$) and exposure
+duration (\$M\_{NS}\$) independently.
+
+-   **Linear Adjustment:** The \$SNH_c\$ formula multiplies the hedge
+    > notional by \$M_h\^{SN}\$. The \$SCVA_c\$ formula multiplies the
+    > exposure by \$M\_{NS}\$.
+
+-   **Implication:** If \$M_h\^{SN} \< M\_{NS}\$ (e.g., a 1-year hedge
+    > against a 5-year trade), the hedge term is numerically smaller.
+    > The capital relief is reduced linearly in proportion to the time
+    > difference. There is no binary \"disallowance\" for maturity
+    > mismatches (provided standard eligibility criteria are met); the
+    > hedge simply provides less \"dollar-duration\" offset.
+
+-   **Cap/Floor Nuance:**
+
+    -   **Exposure (\$M\_{NS}\$):** For fully collateralized trades, the
+        > 1-year maturity floor is removed in BA-CVA (unlike standard
+        > CCR), allowing \$M\_{NS}\$ to drop below 1 year. \$M\_{NS}\$
+        > is capped at 5 years.
+
+    -   **Hedge (\$M_h\^{SN}\$):** The hedge maturity uses the actual
+        > remaining maturity. The discount factor (\$DF\$) also adjusts
+        > based on this maturity, slightly accelerating the decay of
+        > recognition for longer hedges due to the 5% discount rate.^1^
+
+### 8.2 Notional Mismatch and Contingent CDS
+
+-   **Fixed Notional:** For standard CDS, \$B_h\^{SN}\$ is the face
+    > value.
+
+-   **Contingent Notional:** For contingent CDS (where the payout
+    > depends on the MTM of a reference portfolio), the notional
+    > \$B_h\^{SN}\$ must be reset to the **current market value** of the
+    > reference portfolio.^1^ This prevents firms from claiming a fixed
+    > high notional for a hedge that effectively provides little
+    > protection because the underlying portfolio is out-of-the-money.
+
+-   **Allocation:** Firms must allocate hedges specifically to CVA risk.
+    > A hedge cannot be double-counted for Market Risk (trading book)
+    > capital relief and CVA capital relief. If a desk hedges a trading
+    > book bond and a CVA exposure with the same CDS, the notional must
+    > be split or allocated to one distinct risk type.^1^
+
+## 9. Conclusion
+
+The Full BA-CVA framework constructs a rigorous environment for
+single-name hedging where capital relief is tightly controlled by the
+quality of the hedge alignment. The system is defined by:
+
+1.  **A Capital Floor:** The \$\\beta=0.25\$ parameter ensures that
+    > hedging can never eliminate more than 75% of the gross CVA capital
+    > requirement.
+
+2.  **Prescriptive Correlations:** The displacement of internal models
+    > with fixed correlation buckets (100%, 80%, 50%) standardizes the
+    > treatment of basis risk.
+
+3.  **The HMAC Penalty:** The additive, non-diversifiable HMAC charge
+    > imposes a severe quadratic cost on proxy hedging, particularly
+    > when using high-volatility (high risk weight) proxies.
+
+4.  **Implicit Currency Treatment:** Currency mismatch is regulated via
+    > correlation tiers and collateral haircuts on the exposure side,
+    > rather than explicit haircuts on the hedge instrument itself.
+
+For firms operating under these rules, the incentive structure heavily
+favors direct hedging (100% correlation) to avoid the HMAC \"safety
+tax,\" while providing a structured, albeit expensive, pathway for proxy
+hedging illiquid exposures via the Sector/Region buckets.
+
+#### Works cited
+
+1.  PRA Rulebook - (CRR) Instrument \[2024\] - Bank of England, accessed
+    > on January 5, 2026,
+    > [[https://www.bankofengland.co.uk/-/media/boe/files/prudential-regulation/policy-statement/2023/december/ps1723app2.pdf]{.ul}](https://www.bankofengland.co.uk/-/media/boe/files/prudential-regulation/policy-statement/2023/december/ps1723app2.pdf)
+
+2.  BA-CVA Comprehensive guide.docx
+
+3.  MAR50 - Credit valuation adjustment framework - Bank for
+    > International Settlements, accessed on January 5, 2026,
+    > [[https://www.bis.org/basel_framework/chapter/MAR/50.htm]{.ul}](https://www.bis.org/basel_framework/chapter/MAR/50.htm)
+
+4.  Basel III: Finalising post-crisis reforms - Bank for International
+    > Settlements, accessed on January 5, 2026,
+    > [[https://www.bis.org/bcbs/publ/d424.pdf]{.ul}](https://www.bis.org/bcbs/publ/d424.pdf)
+
+5.  Credit Valuation Adjustment risk: targeted final revisions - Bank
+    > for International Settlements, accessed on January 5, 2026,
+    > [[https://www.bis.org/bcbs/publ/d488.pdf]{.ul}](https://www.bis.org/bcbs/publ/d488.pdf)
+
+6.  ISDA - Federal Reserve Board, accessed on January 5, 2026,
+    > [[https://www.federalreserve.gov/SECRS/2024/February/20240220/R-1813/R-1813_011724_156753_496678267479_1.pdf]{.ul}](https://www.federalreserve.gov/SECRS/2024/February/20240220/R-1813/R-1813_011724_156753_496678267479_1.pdf)
+
+7.  PS9/24 -- Implementation of the Basel 3.1 standards near-final part
+    > 2 \| Bank of England, accessed on January 5, 2026,
+    > [[https://www.bankofengland.co.uk/prudential-regulation/publication/2024/september/implementation-of-the-basel-3-1-standards-near-final-policy-statement-part-2]{.ul}](https://www.bankofengland.co.uk/prudential-regulation/publication/2024/september/implementation-of-the-basel-3-1-standards-near-final-policy-statement-part-2)
+
+8.  Whistlebrook\'s Considerations on Basel 3.1 Executive Summary,
+    > accessed on January 5, 2026,
+    > [[https://www.whistlebrook.co.uk/wp-content/uploads/2025/01/Basel-3.1-Whistlebrook-Summary-without-Watermark-Jan-2025-2.pdf]{.ul}](https://www.whistlebrook.co.uk/wp-content/uploads/2025/01/Basel-3.1-Whistlebrook-Summary-without-Watermark-Jan-2025-2.pdf)
+
+9.  Regulatory Capital Rule: Large Banking Organizations and Banking
+    > Organizations With Significant Trading Activity - Federal
+    > Register, accessed on January 5, 2026,
+    > [[https://www.federalregister.gov/documents/2023/09/18/2023-19200/regulatory-capital-rule-large-banking-organizations-and-banking-organizations-with-significant?source=govdelivery&utm_medium=email&utm_source=govdelivery]{.ul}](https://www.federalregister.gov/documents/2023/09/18/2023-19200/regulatory-capital-rule-large-banking-organizations-and-banking-organizations-with-significant?source=govdelivery&utm_medium=email&utm_source=govdelivery)

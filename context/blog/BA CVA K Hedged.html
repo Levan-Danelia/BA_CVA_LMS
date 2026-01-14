@@ -1,0 +1,487 @@
+<p>&lt;!DOCTYPE html&gt;</p>
+<p>&lt;html lang="en"&gt;</p>
+<p>&lt;head&gt;</p>
+<p>&lt;meta charset="UTF-8"&gt;</p>
+<p>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p>&lt;!-- Fonts --&gt;</p>
+<p>&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;</p>
+<p>&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;</p>
+<p>&lt;link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&amp;display=swap" rel="stylesheet"&gt;</p>
+<p>&lt;title&gt;BA CVA: K Hedged&lt;/title&gt;</p>
+<p>&lt;!-- MathJax Configuration --&gt;</p>
+<p>&lt;script&gt;</p>
+<p>window.MathJax = {</p>
+<p>tex: {</p>
+<p>inlineMath: [['\\(', '\\)'], ['$', '$']],</p>
+<p>displayMath: [['\\[', '\\]'], ['$$', '$$']],</p>
+<p>processEscapes: true</p>
+<p>},</p>
+<p>options: {</p>
+<p>ignoreHtmlClass: 'tex2jax_ignore',</p>
+<p>processHtmlClass: 'tex2jax_process'</p>
+<p>}</p>
+<p>};</p>
+<p>&lt;/script&gt;</p>
+<p>&lt;script src="https://polyfill.io/v3/polyfill.min.js?features=es6"&gt;&lt;/script&gt;</p>
+<p>&lt;script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"&gt;&lt;/script&gt;</p>
+<p>&lt;!-- CSS Styles --&gt;</p>
+<p>&lt;style&gt;</p>
+<p>/* --- Base Styles --- */</p>
+<p>body {</p>
+<p>font-family: 'Lato', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;</p>
+<p>line-height: 1.7;</p>
+<p>color: #34495E;</p>
+<p>background-color: #fdfdfd;</p>
+<p>margin: 0;</p>
+<p>padding: 1rem 2rem 2rem;</p>
+<p>}</p>
+<p>.blog-content {</p>
+<p>max-width: 800px;</p>
+<p>margin: 0 auto;</p>
+<p>}</p>
+<p>/* --- Typography --- */</p>
+<p>h1, h2, h3, h4 {</p>
+<p>font-family: 'Avenir Next', 'Avenir', 'Helvetica Neue', sans-serif;</p>
+<p>font-weight: 300;</p>
+<p>color: #2C3E50;</p>
+<p>margin-top: 2.5rem;</p>
+<p>margin-bottom: 1.25rem;</p>
+<p>line-height: 1.3;</p>
+<p>}</p>
+<p>h1 {</p>
+<p>font-size: 2.2rem;</p>
+<p>text-align: center;</p>
+<p>border-bottom: 2px solid #3498DB;</p>
+<p>padding-bottom: 1rem;</p>
+<p>margin-bottom: 2.5rem;</p>
+<p>}</p>
+<p>h2 {</p>
+<p>font-size: 1.75rem;</p>
+<p>text-align: left;</p>
+<p>margin-top: 2rem;</p>
+<p>margin-bottom: 0.75rem;</p>
+<p>}</p>
+<p>.main-intro p {</p>
+<p>text-align: left;</p>
+<p>margin-bottom: 1rem;</p>
+<p>font-size: 1rem;</p>
+<p>}</p>
+<p>h3 {</p>
+<p>font-size: 1.5rem;</p>
+<p>border-bottom: none;</p>
+<p>padding-bottom: 0;</p>
+<p>margin-top: 1.5rem;</p>
+<p>margin-bottom: 0.5rem;</p>
+<p>}</p>
+<p>h4 {</p>
+<p>font-size: 1.2rem;</p>
+<p>margin-top: 1.25rem;</p>
+<p>margin-bottom: 0.5rem;</p>
+<p>}</p>
+<p>p, ul, ol {</p>
+<p>margin-bottom: 1rem;</p>
+<p>font-size: 1rem;</p>
+<p>}</p>
+<p>ul, ol {</p>
+<p>padding-left: 1.5rem;</p>
+<p>}</p>
+<p>li {</p>
+<p>margin-bottom: 0.5rem;</p>
+<p>}</p>
+<p>b, strong {</p>
+<p>font-weight: 700;</p>
+<p>color: #2C3E50;</p>
+<p>}</p>
+<p>/* --- Series Structure --- */</p>
+<p>.series-container {</p>
+<p>margin: 0.25rem 0 1rem 0;</p>
+<p>}</p>
+<p>.series-item {</p>
+<p>display: flex;</p>
+<p>align-items: flex-start;</p>
+<p>padding: 0.6rem 0;</p>
+<p>border-bottom: 1px solid #e0e0e0;</p>
+<p>}</p>
+<p>.series-item:last-child {</p>
+<p>border-bottom: none;</p>
+<p>}</p>
+<p>.series-number {</p>
+<p>flex-shrink: 0;</p>
+<p>width: 28px;</p>
+<p>height: 28px;</p>
+<p>border-radius: 50%;</p>
+<p>background-color: #3498DB;</p>
+<p>color: white;</p>
+<p>font-weight: 700;</p>
+<p>font-size: 0.85rem;</p>
+<p>display: flex;</p>
+<p>align-items: center;</p>
+<p>justify-content: center;</p>
+<p>margin-right: 1rem;</p>
+<p>margin-top: 2px;</p>
+<p>}</p>
+<p>.series-number.inactive {</p>
+<p>background-color: #e0e0e0;</p>
+<p>color: #7f8c8d;</p>
+<p>}</p>
+<p>.series-content {</p>
+<p>flex: 1;</p>
+<p>}</p>
+<p>.series-content h4 {</p>
+<p>margin: 0 0 0.25rem 0;</p>
+<p>font-size: 1.05rem;</p>
+<p>font-weight: 700;</p>
+<p>color: #2C3E50;</p>
+<p>}</p>
+<p>.series-content p {</p>
+<p>margin: 0;</p>
+<p>font-size: 0.9rem;</p>
+<p>color: #7f8c8d;</p>
+<p>line-height: 1.5;</p>
+<p>}</p>
+<p>/* --- Formula Box --- */</p>
+<p>.formula-box {</p>
+<p>background-color: #F8F9FA;</p>
+<p>border-left: 4px solid #3498DB;</p>
+<p>padding: 1.5rem;</p>
+<p>font-family: 'Menlo', 'Consolas', 'Courier New', monospace;</p>
+<p>font-size: 1.1rem;</p>
+<p>border-radius: 0 4px 4px 0;</p>
+<p>overflow-x: auto;</p>
+<p>margin: 1.5rem 0;</p>
+<p>text-align: center;</p>
+<p>}</p>
+<p>.formula-legend {</p>
+<p>display: flex;</p>
+<p>justify-content: center;</p>
+<p>gap: 2rem;</p>
+<p>margin-bottom: 1rem;</p>
+<p>font-size: 0.9rem;</p>
+<p>font-weight: 700;</p>
+<p>}</p>
+<p>.legend-item { display: flex; align-items: center; gap: 0.5rem; }</p>
+<p>.box-sys { width: 12px; height: 12px; background-color: #3498DB; border-radius: 2px; }</p>
+<p>.box-idio { width: 12px; height: 12px; background-color: #27AE60; border-radius: 2px; }</p>
+<p>.box-hma { width: 12px; height: 12px; background-color: #E67E22; border-radius: 2px; }</p>
+<p>/* --- Global Parameters Box --- */</p>
+<p>.params-box {</p>
+<p>display: flex;</p>
+<p>justify-content: space-around;</p>
+<p>background-color: #F8F9FA;</p>
+<p>border: 1px solid #E0E0E0;</p>
+<p>border-radius: 8px;</p>
+<p>padding: 1rem;</p>
+<p>margin: 1rem 0;</p>
+<p>text-align: center;</p>
+<p>}</p>
+<p>.param-item { flex: 1; }</p>
+<p>.param-label { display: block; font-size: 0.85rem; color: #7f8c8d; font-weight: 700; text-transform: uppercase; }</p>
+<p>.param-value { font-size: 1.25rem; color: #3498DB; font-weight: 700; }</p>
+<p>/* --- Tables --- */</p>
+<p>table {</p>
+<p>width: 100%;</p>
+<p>border-collapse: collapse;</p>
+<p>margin: 1.5rem 0;</p>
+<p>font-size: 0.9rem;</p>
+<p>}</p>
+<p>th, td {</p>
+<p>padding: 0.75rem;</p>
+<p>text-align: left;</p>
+<p>border-bottom: 1px solid #e0e0e0;</p>
+<p>}</p>
+<p>thead th {</p>
+<p>background-color: #F8F9FA;</p>
+<p>font-weight: 700;</p>
+<p>color: #2C3E50;</p>
+<p>border-bottom: 2px solid #3498DB;</p>
+<p>}</p>
+<p>.numeric { text-align: right; }</p>
+<p>.total-row { font-weight: 700; background-color: #f9f9f9; }</p>
+<p>/* --- Component List --- */</p>
+<p>.component-item {</p>
+<p>margin-bottom: 1.5rem;</p>
+<p>padding-left: 1rem;</p>
+<p>border-left: 2px solid #ECF0F1;</p>
+<p>}</p>
+<p>.component-name {</p>
+<p>font-weight: 700;</p>
+<p>color: #3498DB;</p>
+<p>font-size: 1.1rem;</p>
+<p>display: block;</p>
+<p>margin-bottom: 0.25rem;</p>
+<p>}</p>
+<p>/* --- Risk &amp; Tech Sections --- */</p>
+<p>.tech-section {</p>
+<p>margin-top: 2rem;</p>
+<p>padding: 1.25rem;</p>
+<p>background-color: #FFFFFF;</p>
+<p>border: 1px solid #E0E0E0;</p>
+<p>border-radius: 8px;</p>
+<p>}</p>
+<p>.tech-title {</p>
+<p>font-weight: 700;</p>
+<p>color: #2C3E50;</p>
+<p>margin-bottom: 0.5rem;</p>
+<p>display: block;</p>
+<p>}</p>
+<p>.highlight-blue { color: #3498DB; font-weight: bold; }</p>
+<p>.highlight-green { color: #27AE60; font-weight: bold; }</p>
+<p>.highlight-orange { color: #E67E22; font-weight: bold; }</p>
+<p>.highlight-red { color: #E74C3C; font-weight: bold; }</p>
+<p>hr {</p>
+<p>border: none;</p>
+<p>border-top: 1px solid #e0e0e0;</p>
+<p>margin: 1.5rem 0;</p>
+<p>}</p>
+<p>&lt;/style&gt;</p>
+<p>&lt;/head&gt;</p>
+<p>&lt;body&gt;</p>
+<p>&lt;div class="blog-content"&gt;</p>
+<p>&lt;h1&gt;K Hedged&lt;/h1&gt;</p>
+<p>&lt;!-- PART 1: SUMMARY &amp; STRUCTURE --&gt;</p>
+<p>&lt;h2&gt;Summary&lt;/h2&gt;</p>
+<p>&lt;div class="main-intro"&gt;</p>
+<p>&lt;p&gt;In the final stages of the Full BA-CVA approach, we move from analyzing individual hedges to calculating &lt;b&gt;\(K_{\text{hedged}}\)&lt;/b&gt;. This represents the total capital requirement for a portfolio where all eligible hedges—Single Name (SNH) and Index (IH)—are integrated. It is the mathematical "net" view of your CVA risk profile, incorporating both the benefits of risk mitigation and the penalties for hedging imperfections.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;hr&gt;</p>
+<p>&lt;h3&gt;Series Structure&lt;/h3&gt;</p>
+<p>&lt;div class="series-container"&gt;</p>
+<p>&lt;div class="series-item"&gt;</p>
+<p>&lt;div class="series-number inactive"&gt;1&lt;/div&gt;</p>
+<p>&lt;div class="series-content"&gt;</p>
+<p>&lt;h4&gt;Introduction&lt;/h4&gt;</p>
+<p>&lt;p&gt;Regulatory scope and fundamental scalars.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="series-item"&gt;</p>
+<p>&lt;div class="series-number inactive"&gt;2&lt;/div&gt;</p>
+<p>&lt;div class="series-content"&gt;</p>
+<p>&lt;h4&gt;Standalone CVA (SCVA)&lt;/h4&gt;</p>
+<p>&lt;p&gt;The core engine of the framework.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="series-item"&gt;</p>
+<p>&lt;div class="series-number inactive"&gt;3&lt;/div&gt;</p>
+<p>&lt;div class="series-content"&gt;</p>
+<p>&lt;h4&gt;K Reduced&lt;/h4&gt;</p>
+<p>&lt;p&gt;The "gross" risk view without hedging.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="series-item"&gt;</p>
+<p>&lt;div class="series-number inactive"&gt;4&lt;/div&gt;</p>
+<p>&lt;div class="series-content"&gt;</p>
+<p>&lt;h4&gt;Single Name Hedges (SNH)&lt;/h4&gt;</p>
+<p>&lt;p&gt;Direct mitigants and correlations.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="series-item"&gt;</p>
+<p>&lt;div class="series-number inactive"&gt;5&lt;/div&gt;</p>
+<p>&lt;div class="series-content"&gt;</p>
+<p>&lt;h4&gt;Hedge Mismatch Adjustment (HMA)&lt;/h4&gt;</p>
+<p>&lt;p&gt;Capital add-ons for imperfect proxies.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="series-item"&gt;</p>
+<p>&lt;div class="series-number inactive"&gt;6&lt;/div&gt;</p>
+<p>&lt;div class="series-content"&gt;</p>
+<p>&lt;h4&gt;Index Hedges (IH)&lt;/h4&gt;</p>
+<p>&lt;p&gt;Systematic offsets and sectoral weighting.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="series-item"&gt;</p>
+<p>&lt;div class="series-number"&gt;7&lt;/div&gt;</p>
+<p>&lt;div class="series-content"&gt;</p>
+<p>&lt;h4&gt;K Hedged&lt;/h4&gt;</p>
+<p>&lt;p&gt;The "net" risk view: Aggregating exposure and hedges within the square-root formula.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="series-item"&gt;</p>
+<p>&lt;div class="series-number inactive"&gt;8&lt;/div&gt;</p>
+<p>&lt;div class="series-content"&gt;</p>
+<p>&lt;h4&gt;K Full&lt;/h4&gt;</p>
+<p>&lt;p&gt;The floor check balancing Reduced and Hedged views.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="series-item"&gt;</p>
+<p>&lt;div class="series-number inactive"&gt;9&lt;/div&gt;</p>
+<p>&lt;div class="series-content"&gt;</p>
+<p>&lt;h4&gt;K Final&lt;/h4&gt;</p>
+<p>&lt;p&gt;The final Discount Scalar and bottom line.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;hr&gt;</p>
+<p>&lt;!-- PART 2: FORMULA AND COMPONENTS --&gt;</p>
+<p>&lt;h2&gt;K Hedged: Formula and Components&lt;/h2&gt;</p>
+<p>&lt;div class="main-intro"&gt;</p>
+<p>&lt;p&gt;While the Reduced approach provides a baseline of gross risk, &lt;b&gt;\(K_{\text{hedged}}\)&lt;/b&gt; is the sophisticated "net" view of the portfolio. It is where the regulator acknowledges the risk-reducing impact of credit derivatives while simultaneously penalizing the basis risks that arise from imperfect hedging strategies.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;h3&gt;The Portfolio Aggregation Formula&lt;/h3&gt;</p>
+<p>&lt;p&gt;The regulatory framework uses the following formula. We have color-coded the components to highlight how different risks are aggregated:&lt;/p&gt;</p>
+<p>&lt;div class="formula-legend"&gt;</p>
+<p>&lt;div class="legend-item"&gt;&lt;div class="box-sys"&gt;&lt;/div&gt; &lt;span class="highlight-blue"&gt;Systematic&lt;/span&gt;&lt;/div&gt;</p>
+<p>&lt;div class="legend-item"&gt;&lt;div class="box-idio"&gt;&lt;/div&gt; &lt;span class="highlight-green"&gt;Idiosyncratic&lt;/span&gt;&lt;/div&gt;</p>
+<p>&lt;div class="legend-item"&gt;&lt;div class="box-hma"&gt;&lt;/div&gt; &lt;span class="highlight-orange"&gt;Mismatch Add-on&lt;/span&gt;&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="formula-box"&gt;</p>
+<p>\[ K_{\text{hedged}} = \sqrt{ \color{#3498DB}{\left(\rho \cdot \sum_{c} (SCVA_c - SNH_c) - IH\right)^2} + \color{#27AE60}{(1 - \rho^2) \cdot \sum_{c} (SCVA_c - SNH_c)^2} + \color{#E67E22}{\sum_{c} HMA_c} } \]</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;h3&gt;Component Breakdown&lt;/h3&gt;</p>
+<p>&lt;p&gt;To grasp the mechanics of this formula, we must look at the variables through a risk management lens rather than just mathematical symbols:&lt;/p&gt;</p>
+<p>&lt;div class="component-item"&gt;</p>
+<p>&lt;span class="component-name"&gt;Standalone CVA (\(SCVA_c\))&lt;/span&gt;</p>
+<p>&lt;p&gt;The raw risk of the counterparty. It acts as the "exposure" that needs to be neutralized by the hedging strategy.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="component-item"&gt;</p>
+<p>&lt;span class="component-name"&gt;Single Name Hedges (\(SNH_c\))&lt;/span&gt;</p>
+<p>&lt;p&gt;Direct protection. These are instruments (like CDS) that specifically target the default risk of a counterparty or a closely related entity.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="component-item"&gt;</p>
+<p>&lt;span class="component-name"&gt;Index Hedges (\(IH\))&lt;/span&gt;</p>
+<p>&lt;p&gt;Macro protection. These broad market instruments protect the portfolio against general economic downturns that widen credit spreads globally.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="component-item"&gt;</p>
+<p>&lt;span class="component-name"&gt;Hedge Mismatch Adjustment (\(HMA_c\))&lt;/span&gt;</p>
+<p>&lt;p&gt;The "Basis Risk" penalty. This add-on accounts for the gap created when you use a proxy hedge (e.g., insuring a parent company to protect a subsidiary exposure).&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="component-item"&gt;</p>
+<p>&lt;span class="component-name"&gt;Correlation Parameter (\(\rho\))&lt;/span&gt;</p>
+<p>&lt;p&gt;Fixed at &lt;b&gt;50%&lt;/b&gt;. This represents the regulator's view on the balance between market-wide movements and entity-specific events.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;hr&gt;</p>
+<p>&lt;h3&gt;The Conceptual Split: Understanding the Parts&lt;/h3&gt;</p>
+<p>&lt;p&gt;The beauty of the formula lies in how it bifurcates risk into three orthogonal components to ensure hedges are only applied where they are actually effective:&lt;/p&gt;</p>
+<p>&lt;div class="tech-section"&gt;</p>
+<p>&lt;span class="tech-title"&gt;1. The Systematic Risk Component&lt;/span&gt;</p>
+<p>&lt;p&gt;Represented by: &lt;span class="highlight-blue"&gt;\( \left(\rho \cdot \sum (SCVA - SNH) - IH\right)^2 \)&lt;/span&gt;&lt;/p&gt;</p>
+<p>&lt;p&gt;This part captures the risk of &lt;b&gt;market-wide spread blowouts&lt;/b&gt;. Conceptually, if the entire market shifts, both your single-name hedges AND your broad index hedges (\(IH\)) will provide protection. This is the only place in the formula where Index Hedges are permitted to reduce capital, as they are "macro" tools designed for "macro" events.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="tech-section"&gt;</p>
+<p>&lt;span class="tech-title"&gt;2. The Idiosyncratic Risk Component&lt;/span&gt;</p>
+<p>&lt;p&gt;Represented by: &lt;span class="highlight-green"&gt;\( (1 - \rho^2) \cdot \sum (SCVA - SNH)^2 \)&lt;/span&gt;&lt;/p&gt;</p>
+<p>&lt;p&gt;This part captures the &lt;b&gt;residual counterparty-specific risk&lt;/b&gt;. It measures the risk of what remains of your exposure after the single-name hedges are applied. Notice that &lt;span class="highlight-red"&gt;\(IH\) is absent here&lt;/span&gt;; a broad index cannot save you from the specific default of one firm. Only Single-Name Hedges (\(SNH\))—which have "micro" sensitivity—offset this component.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="tech-section"&gt;</p>
+<p>&lt;span class="tech-title"&gt;3. The Hedge Mismatch Adjustment (HMA)&lt;/span&gt;</p>
+<p>&lt;p&gt;Represented by: &lt;span class="highlight-orange"&gt;\( \sum HMA_c \)&lt;/span&gt;&lt;/p&gt;</p>
+<p>&lt;p&gt;Crucially, this is kept separate from the Idiosyncratic component. While the second part measures the risk of the &lt;i&gt;exposure&lt;/i&gt;, HMA measures the &lt;b&gt;risk of the hedge failing&lt;/b&gt;. It is a "safety tax" on basis risk—when you use a proxy hedge, you've introduced a new risk that the hedge and exposure don't move together. By keeping it separate and additive, the regulator ensures every imperfect hedge is penalized individually without being diluted by diversification.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;hr&gt;</p>
+<p>&lt;!-- PART 3: APPLICATION TO PORTFOLIO --&gt;</p>
+<p>&lt;h2&gt;Application to Our Portfolio&lt;/h2&gt;</p>
+<p>&lt;div class="main-intro"&gt;</p>
+<p>&lt;p&gt;To ensure absolute precision, we apply the &lt;b&gt;\(K_{\text{hedged}}\)&lt;/b&gt; framework using the validated outputs from our technical calculation engine. This forensics-level breakdown shows the interplay between unhedged pension exposures, direct banking hedges, and broader index protection.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;h3&gt;Step 1: Portfolio Data &amp; Global Parameters&lt;/h3&gt;</p>
+<p>&lt;p&gt;We define our global parameters first. The Index Hedge (\(IH\)) is calculated by applying a 0.7 scalar to the name-weighted risk weights of the EuroCredit and NorthAm indices.&lt;/p&gt;</p>
+<p>&lt;div class="params-box"&gt;</p>
+<p>&lt;div class="param-item"&gt;</p>
+<p>&lt;span class="param-label"&gt;Correlation (\(\rho\))&lt;/span&gt;</p>
+<p>&lt;span class="param-value"&gt;0.50&lt;/span&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="param-item"&gt;</p>
+<p>&lt;span class="param-label"&gt;Index Hedge (\(IH\))&lt;/span&gt;</p>
+<p>&lt;span class="param-value"&gt;109.49&lt;/span&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;table&gt;</p>
+<p>&lt;thead&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;th&gt;Counterparty&lt;/th&gt;</p>
+<p>&lt;th class="numeric"&gt;\(SCVA_c\)&lt;/th&gt;</p>
+<p>&lt;th class="numeric"&gt;\(SNH_c\)&lt;/th&gt;</p>
+<p>&lt;th class="numeric"&gt;\(SCVA_c - SNH_c\)&lt;/th&gt;</p>
+<p>&lt;th class="numeric"&gt;\((SCVA_c - SNH_c)^2\)&lt;/th&gt;</p>
+<p>&lt;th class="numeric"&gt;\(HMA_c\)&lt;/th&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;/thead&gt;</p>
+<p>&lt;tbody&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Alpha Bank Ltd&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;259.82&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;97.83&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;161.99&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;26,240.76&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;446.74&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Northern Energy Corp&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;14.93&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;5.71&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;9.22&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;85.01&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;97.80&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Maple Pension Trust&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;518.00&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.00&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;518.00&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;268,324.00&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.00&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;GlobalTech Solutions&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;9.58&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;9.53&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.05&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.00&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;51.13&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr&gt;</p>
+<p>&lt;td&gt;Riverside Finance Ltd&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;7.13&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;24.69&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;-17.56&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;308.35&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;0.00&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;tr class="total-row"&gt;</p>
+<p>&lt;td&gt;Portfolio Sum (\(\sum\))&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;809.46&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;137.76&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;671.70&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;294,958.12&lt;/td&gt;</p>
+<p>&lt;td class="numeric"&gt;595.67&lt;/td&gt;</p>
+<p>&lt;/tr&gt;</p>
+<p>&lt;/tbody&gt;</p>
+<p>&lt;/table&gt;</p>
+<p>&lt;h3&gt;Step 2: Component Calculations&lt;/h3&gt;</p>
+<p>&lt;p&gt;Using the validated sums from the table above, we calculate the three pillars of the portfolio-level risk variance.&lt;/p&gt;</p>
+<p>&lt;div class="tech-section"&gt;</p>
+<p>&lt;h4&gt;1. Systematic Variance Component&lt;/h4&gt;</p>
+<p>&lt;p&gt;Captures correlated market risk. The high Index Hedge (\(109.49\)) acts as a significant subtractor here.&lt;/p&gt;</p>
+<p>&lt;div class="formula-box"&gt;</p>
+<p>\( \text{Systematic} = \left(0.5 \cdot 671.70 - 109.49\right)^2 \) &lt;br&gt;</p>
+<p>\( (335.85 - 109.49)^2 = 226.36^2 = \mathbf{51,238.85} \)</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="tech-section"&gt;</p>
+<p>&lt;h4&gt;2. Idiosyncratic Variance Component&lt;/h4&gt;</p>
+<p>&lt;p&gt;Captures name-specific risk. This component is particularly sensitive to concentration within the portfolio.&lt;/p&gt;</p>
+<p>&lt;div class="formula-box"&gt;</p>
+<p>\( \text{Idiosyncratic} = (1 - \rho^2) \cdot \sum (SCVA_c - SNH_c)^2 \) &lt;br&gt;</p>
+<p>\( 0.75 \cdot 294,958.12 = \mathbf{221,218.59} \)</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;p&gt;&lt;b&gt;Composition Note:&lt;/b&gt; The idiosyncratic component is heavily skewed by &lt;i&gt;Maple Pension Trust&lt;/i&gt;. Its squared net exposure (\(268,324.00\)) accounts for approximately &lt;b&gt;91%&lt;/b&gt; of the total sum used in this calculation. This illustrates how a single large, unhedged name can dominate a bank's idiosyncratic capital charge.&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;div class="tech-section"&gt;</p>
+<p>&lt;h4&gt;3. Mismatch Component (\(\sum HMA\))&lt;/h4&gt;</p>
+<p>&lt;p&gt;The additive penalty for proxy hedging strategies used for Alpha Bank and Northern Energy.&lt;/p&gt;</p>
+<p>&lt;div class="formula-box"&gt;</p>
+<p>\( \sum HMA_c = 446.74 + 97.80 + 51.13 = \mathbf{595.67} \)</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;hr&gt;</p>
+<p>&lt;h3&gt;Final Result: Portfolio \(K_{\text{hedged}}\)&lt;/h3&gt;</p>
+<p>&lt;p&gt;We aggregate the three variance pillars and apply the final square root.&lt;/p&gt;</p>
+<p>&lt;div class="formula-box" style="font-size: 1.25rem; border: 1px solid #3498DB;"&gt;</p>
+<p>\[ K_{\text{hedged}} = \sqrt{ \color{#3498DB}{51,238.85} + \color{#27AE60}{221,218.59} + \color{#E67E22}{595.67} } \]</p>
+<p>\[ K_{\text{hedged}} = \sqrt{273,053.11} = \mathbf{522.55} \]</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;p style="margin-top: 1.5rem;"&gt;</p>
+<p>The hedging strategy provides a meaningful capital reduction compared to the baseline gross risk view. However, the &lt;b&gt;Idiosyncratic component&lt;/b&gt; remains the primary capital driver (representing over 80% of the total variance). This outcome emphasizes that while broad index hedges are effective for systematic shifts, they cannot mitigate the specific risks of concentrated, unhedged exposures like those in the pension sector.</p>
+<p>&lt;/p&gt;</p>
+<p>&lt;/div&gt;</p>
+<p>&lt;/body&gt;</p>
+<p>&lt;/html&gt;</p>

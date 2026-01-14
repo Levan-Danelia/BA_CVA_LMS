@@ -1,0 +1,471 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================================
+   CSS VARIABLES - Single source of truth for colors
+   ============================================================================ */
+
+:root {
+  /* Primary Brand - Base color for UI elements */
+  --color-primary: #328cc1;
+  /* Blue - base color for sections, borders, icons */
+
+  /* Chart Palette - 5-color palette for data visualization only */
+  --color-chart-1: #292866;
+  /* Deep purple */
+  --color-chart-2: #406352;
+  /* Forest green */
+  --color-chart-3: #F05C4F;
+  /* Coral red */
+  --color-chart-4: #C8C2E0;
+  /* Lavender */
+  --color-chart-5: #97D0B1;
+  /* Mint green */
+
+  /* Card Palette - Calm, moderate colors for UI cards */
+  --color-card-1: #7B9CC4;
+  /* Soft sky blue */
+  --color-card-2: #6B9B8E;
+  /* Sage green */
+  --color-card-3: #9B86BD;
+  /* Soft purple */
+  --color-card-4: #5A8FAE;
+  /* Ocean blue */
+  --color-card-5: #8BA888;
+  /* Muted green */
+  --color-card-6: #8E7DAB;
+  /* Dusty purple */
+
+  /* Neutral Palette */
+  --color-neutral-900: #0f172a;
+  --color-neutral-800: #1e293b;
+  --color-neutral-700: #334155;
+  --color-neutral-600: #475569;
+  --color-neutral-500: #64748b;
+  --color-neutral-400: #94a3b8;
+  --color-neutral-300: #cbd5e1;
+  --color-neutral-200: #e2e8f0;
+  --color-neutral-100: #f1f5f9;
+  --color-neutral-50: #f8fafc;
+
+  /* Chart Colors */
+  --color-chart-grid: #e2e8f0;
+  --color-chart-axis: #64748b;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Shadcn compatibility */
+  --radius: 0.5rem;
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 221.2 83.2% 53.3%;
+}
+
+/* ============================================================================
+   BASE STYLES
+   ============================================================================ */
+
+@layer base {
+  * {
+    @apply border-neutral-200;
+  }
+
+  body {
+    @apply bg-neutral-100 text-neutral-700 antialiased m-0 p-0 overflow-hidden h-screen;
+    font-family: var(--font-sans);
+    font-size: 13px;
+  }
+
+  /* Custom Scrollbar Styling */
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-neutral-100;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-neutral-300 rounded-full border-[3px] border-neutral-100 transition-colors duration-150;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-neutral-400;
+  }
+}
+
+/* ============================================================================
+   LAYOUT COMPONENTS
+   ============================================================================ */
+
+@layer components {
+
+  /* Main App Shell */
+  .app-shell {
+    @apply flex h-screen w-screen overflow-hidden bg-neutral-100;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    @apply w-64 flex flex-col shrink-0 border-r border-neutral-300 bg-neutral-100;
+  }
+
+  .sidebar-header {
+    @apply h-14 px-5 flex items-center gap-3 border-b border-neutral-200 bg-neutral-100;
+  }
+
+  .sidebar-nav {
+    @apply flex-1 py-3 overflow-y-auto;
+  }
+
+  .sidebar-title {
+    @apply text-sm font-bold px-0 mb-0 text-neutral-900;
+  }
+
+  /* Navigation Sidebar Buttons */
+  .nav-item {
+    @apply px-5 py-2.5 flex items-center gap-3 w-full transition-all duration-150 text-left;
+  }
+
+  .nav-item-label {
+    @apply text-sm font-bold text-neutral-700;
+  }
+
+  .nav-item-icon {
+    @apply w-4 h-4 text-primary;
+  }
+
+  .nav-item-active {
+    @apply bg-neutral-200/50;
+  }
+
+  .nav-item-active .nav-item-label {
+    @apply text-neutral-900;
+  }
+
+  .nav-item-active .nav-item-icon {
+    @apply text-primary;
+  }
+
+  .nav-item:not(.nav-item-active):hover {
+    @apply bg-neutral-200/30;
+  }
+
+  /* Main Content Area */
+  .main-content {
+    @apply flex-1 flex flex-col min-w-0 bg-neutral-100;
+  }
+
+  /* View Container */
+  .view-container {
+    @apply h-full flex flex-col bg-neutral-100;
+  }
+
+  /* View Header */
+  .view-header {
+    @apply h-14 bg-neutral-100 border-b border-neutral-200 px-6 flex items-center justify-between shrink-0;
+  }
+
+  .view-header-title {
+    @apply text-sm font-bold uppercase tracking-wide text-neutral-900;
+  }
+
+  .view-header-content {
+    @apply flex items-center gap-3;
+  }
+
+  .view-header-icon {
+    @apply w-4 h-4 text-primary;
+  }
+
+  /* Scrollable Content */
+  .view-content {
+    @apply flex-1 overflow-y-auto;
+  }
+
+  .content-wrapper {
+    @apply w-full px-8 py-6 flex flex-col;
+  }
+
+  .view-section {
+    @apply mt-8 first:mt-0;
+  }
+
+  /* Ensure last child of section removes bottom margin */
+  .view-section>*:last-child {
+    @apply mb-0 !important;
+  }
+
+  .layout-grid-2 {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-6 mb-6;
+  }
+
+  .layout-grid-2:last-child {
+    @apply mb-0;
+  }
+
+  /* Cards inside grid should not have bottom margin - grid handles spacing */
+  .layout-grid-2>.card {
+    @apply mb-0;
+  }
+
+  /* HEADINGS AND TEXT */
+  /* ============================================================================ */
+  .heading-section {
+    @apply text-sm font-bold uppercase tracking-wide text-neutral-900 pb-2 mb-4 border-b border-neutral-200 flex items-center justify-between;
+  }
+
+  .table_title {
+    @apply text-[10px] uppercase tracking-wider text-neutral-500 mt-6 mb-4 px-2 block first:mt-0;
+  }
+
+  .table-footnote {
+    @apply text-xs text-neutral-500 mt-4 italic text-left;
+  }
+
+  .list-standard {
+    @apply list-disc list-inside space-y-2 text_body ml-4;
+  }
+
+  .text_body {
+    @apply text-sm leading-relaxed text-neutral-600 font-normal;
+  }
+
+  .text-block {
+    @apply space-y-4 mb-6;
+  }
+
+  .text-block:last-child {
+    @apply mb-0;
+  }
+
+  /* TYPOGRAPHY UTILITIES */
+  /* ============================================================================ */
+  .legend-label {
+    @apply text-[10px] uppercase tracking-wider text-neutral-600;
+  }
+
+  .formula-systematic {
+    @apply text-primary;
+  }
+
+  .formula-idiosyncratic {
+    @apply text-neutral-400;
+  }
+
+  .formula-hma {
+    @apply text-orange-500;
+  }
+
+  /* CARDS */
+  /* ============================================================================ */
+  .card {
+    @apply rounded-xl overflow-hidden transition-all duration-200 mb-6;
+    background-color: rgba(148, 163, 184, 0.03);
+  }
+
+  .card:last-child {
+    @apply mb-0;
+  }
+
+  .mb-card-gap {
+    @apply mb-6;
+  }
+
+  .card-body {
+    @apply p-6;
+  }
+
+  /* Card Variants */
+  .card-v1 {
+    --card-theme-color: var(--color-card-1);
+    border: 1px solid var(--color-card-1) !important;
+    background-color: rgba(123, 156, 196, 0.03);
+  }
+
+  .card-v2 {
+    --card-theme-color: var(--color-card-2);
+    border: 1px solid var(--color-card-2) !important;
+    background-color: rgba(107, 155, 142, 0.03);
+  }
+
+  .card-v3 {
+    --card-theme-color: var(--color-card-3);
+    border: 1px solid var(--color-card-3) !important;
+    background-color: rgba(155, 134, 189, 0.03);
+  }
+
+  .card-v4 {
+    --card-theme-color: var(--color-card-4);
+    border: 1px solid var(--color-card-4) !important;
+    background-color: rgba(90, 143, 174, 0.03);
+  }
+
+  .card-v5 {
+    --card-theme-color: var(--color-card-5);
+    border: 1px solid var(--color-card-5) !important;
+    background-color: rgba(139, 168, 136, 0.03);
+  }
+
+  .card-v6 {
+    --card-theme-color: var(--color-card-6);
+    border: 1px solid var(--color-card-6) !important;
+    background-color: rgba(142, 125, 171, 0.03);
+  }
+
+  /* Card Content */
+  .card .card-title-large {
+    @apply text-lg font-bold uppercase tracking-tight;
+    color: var(--card-theme-color);
+  }
+
+  .card .card-subtitle {
+    @apply text-xs font-semibold text-neutral-600 mt-1 uppercase tracking-wider;
+  }
+
+  .card .card-description {
+    @apply text-sm text-neutral-700 mt-4 leading-relaxed;
+  }
+
+  .card .card-stat-value {
+    @apply text-xl font-bold text-center block w-full;
+    @apply mt-6;
+    color: var(--card-theme-color);
+  }
+
+  .card-body>.card-stat-value:first-child {
+    @apply mt-0;
+  }
+
+  /* LEGEND DOTS */
+  /* ============================================================================ */
+  .legend-dot-systematic {
+    @apply w-2 h-2 rounded-full bg-primary;
+  }
+
+  .legend-dot-idiosyncratic {
+    @apply w-2 h-2 rounded-full bg-neutral-400;
+  }
+
+  .legend-dot-hma {
+    @apply w-2 h-2 rounded-full bg-orange-500;
+  }
+
+  .legend-container {
+    @apply flex justify-center gap-6 mt-6;
+  }
+
+  .legend-item {
+    @apply flex items-center gap-2;
+  }
+
+  /* TABLES */
+  /* ============================================================================ */
+  .table-container {
+    @apply mb-6;
+  }
+
+  .table {
+    @apply w-full text-left border-collapse mb-6;
+    border: 1px solid #e2e8f0;
+  }
+
+  .table:last-child {
+    @apply mb-0;
+  }
+
+  .table th {
+    @apply px-4 py-3 text-xs font-bold uppercase tracking-wider border border-neutral-300 text-neutral-700;
+    background-color: rgba(148, 163, 184, 0.15);
+  }
+
+  .table td {
+    @apply px-4 py-2.5 text-xs font-normal text-neutral-700 border border-neutral-200;
+  }
+
+  .text_table_right {
+    @apply text-right;
+  }
+
+  .text_table_left {
+    @apply text-left;
+  }
+
+  .text_table_header_right {
+    @apply text-right text-neutral-900;
+  }
+
+  .text_table_header_left {
+    @apply text-left text-neutral-900;
+  }
+
+  /* INTERACTIVE ELEMENTS */
+  /* ============================================================================ */
+  .active-scale-sm {
+    @apply active:scale-[0.98];
+  }
+
+  /* BUTTONS - EXACT SFT STANDARDS (DO NOT MODIFY) */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg font-semibold text-sm transition-all duration-150 active-scale-sm;
+  }
+
+  .btn-primary {
+    @apply btn px-5 py-2.5 bg-primary text-white hover:bg-primary-600;
+  }
+
+  .btn-secondary {
+    @apply btn px-5 py-2.5 bg-neutral-100 border border-neutral-200 text-neutral-700 hover:bg-neutral-200 hover:border-neutral-300;
+  }
+
+  .btn-ghost {
+    @apply btn px-4 py-2 text-neutral-500 hover:text-neutral-900 hover:bg-neutral-200;
+  }
+
+  .nav-btn {
+    @apply btn px-6 py-2.5 bg-neutral-100 border border-neutral-200 text-neutral-700 hover:border-primary hover:text-primary shadow-sm;
+  }
+
+  .nav-btn-hidden {
+    @apply invisible;
+  }
+
+  .footer-nav {
+    @apply flex items-center justify-between mt-6 pt-6 border-t border-neutral-200;
+  }
+
+  /* FLOW DIAGRAMS */
+  /* Individual node styling */
+  .flow-node {
+    @apply flex items-center justify-center text-center font-semibold border-2 rounded-lg;
+    font-size: 10px;
+    /* Dimensions are now handled in JS constants */
+    box-sizing: border-box;
+    border-color: #7B9CC4;
+    background-color: rgba(123, 156, 196, 0.03);
+    color: #7B9CC4;
+  }
+
+  .flow-container {
+    @apply w-full h-full;
+  }
+
+  .card-body-large {
+    height: 400px;
+  }
+
+  .card-body-compact {
+    height: 250px;
+  }
+
+  /* UTILITIES */
+  /* ============================================================================ */
+  .mb-0 {
+    margin-bottom: 0 !important;
+  }
+}
