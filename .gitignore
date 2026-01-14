@@ -27,3 +27,4 @@ dist-ssr
 # Claude Code temp files
 tmpclaude-*
 nul
+.claude/settings.local.json
