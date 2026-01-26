@@ -468,4 +468,342 @@
   .mb-0 {
     margin-bottom: 0 !important;
   }
+
+  /* ============================================================================
+     PROGRESS INDICATOR
+     ============================================================================ */
+  .progress-indicator {
+    @apply p-4 border-t border-neutral-200 bg-neutral-50;
+  }
+
+  .progress-indicator .progress-header {
+    @apply flex items-center gap-2 mb-2;
+  }
+
+  .progress-indicator .progress-icon {
+    @apply text-primary;
+  }
+
+  .progress-indicator .progress-text {
+    @apply text-xs font-medium text-neutral-600;
+  }
+
+  .progress-indicator .progress-bar-container {
+    @apply h-2 bg-neutral-200 rounded-full overflow-hidden;
+  }
+
+  .progress-indicator .progress-bar-fill {
+    @apply h-full bg-primary rounded-full transition-all duration-300;
+  }
+
+  .progress-indicator .progress-footer {
+    @apply flex items-center justify-between mt-2;
+  }
+
+  .progress-indicator .progress-percentage {
+    @apply text-xs font-bold text-neutral-700;
+  }
+
+  .progress-indicator .assessment-badge {
+    @apply text-xs font-semibold px-2 py-0.5 rounded;
+  }
+
+  .progress-indicator .assessment-badge.passed {
+    @apply bg-green-100 text-green-700;
+  }
+
+  .progress-indicator .assessment-badge.failed {
+    @apply bg-red-100 text-red-700;
+  }
+
+  /* ============================================================================
+     ASSESSMENT STYLES
+     ============================================================================ */
+
+  /* Assessment Intro */
+  .assessment-intro {
+    @apply text-center max-w-2xl mx-auto py-8;
+  }
+
+  .assessment-intro h2 {
+    @apply text-2xl font-bold text-neutral-900 mb-4;
+  }
+
+  .assessment-intro .intro-text {
+    @apply text-neutral-600 mb-6 leading-relaxed;
+  }
+
+  .assessment-intro .assessment-info {
+    @apply text-left bg-neutral-50 rounded-lg p-6 mb-8 space-y-2;
+  }
+
+  .assessment-intro .assessment-info li {
+    @apply text-sm text-neutral-600 flex items-start gap-2;
+  }
+
+  .assessment-intro .assessment-info li::before {
+    content: "•";
+    @apply text-primary font-bold;
+  }
+
+  .assessment-intro .previous-result {
+    @apply mb-6 p-4 rounded-lg text-sm font-medium;
+  }
+
+  .assessment-intro .previous-result.passed {
+    @apply bg-green-50 text-green-700 border border-green-200;
+  }
+
+  .assessment-intro .previous-result.failed {
+    @apply bg-amber-50 text-amber-700 border border-amber-200;
+  }
+
+  .start-assessment-button {
+    @apply inline-flex items-center gap-2 px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors;
+  }
+
+  /* Assessment Progress Dots */
+  .assessment-progress {
+    @apply flex items-center justify-center gap-2 mb-8 flex-wrap;
+  }
+
+  .assessment-progress .progress-dot {
+    @apply w-8 h-8 rounded-full text-xs font-semibold flex items-center justify-center transition-all;
+    @apply bg-neutral-100 text-neutral-400 border-2 border-neutral-200;
+  }
+
+  .assessment-progress .progress-dot:hover {
+    @apply border-neutral-400;
+  }
+
+  .assessment-progress .progress-dot.current {
+    @apply bg-primary text-white border-primary;
+  }
+
+  .assessment-progress .progress-dot.answered {
+    @apply bg-green-100 text-green-700 border-green-300;
+  }
+
+  .assessment-progress .progress-dot.answered.current {
+    @apply bg-primary text-white border-primary;
+  }
+
+  /* Question Container */
+  .question-container {
+    @apply bg-white rounded-xl border border-neutral-200 p-8 mb-6;
+  }
+
+  .question-header {
+    @apply flex items-center gap-4 mb-6 pb-4 border-b border-neutral-100 flex-wrap;
+  }
+
+  .question-header .question-number {
+    @apply text-sm font-bold text-neutral-900;
+  }
+
+  .question-header .question-module {
+    @apply text-xs font-medium px-2 py-1 bg-neutral-100 text-neutral-600 rounded;
+  }
+
+  .question-header .question-points {
+    @apply text-xs font-medium text-primary ml-auto;
+  }
+
+  .question-text {
+    @apply text-lg font-medium text-neutral-800 mb-8 leading-relaxed;
+  }
+
+  /* Question Options */
+  .question-options {
+    @apply space-y-3;
+  }
+
+  .question-options.true-false {
+    @apply flex gap-4;
+  }
+
+  .question-options.true-false .option-button {
+    @apply flex-1 justify-center;
+  }
+
+  .option-button {
+    @apply w-full flex items-center gap-4 p-4 rounded-lg border-2 border-neutral-200 text-left transition-all;
+    @apply hover:border-primary/50 hover:bg-primary/5;
+  }
+
+  .option-button.selected {
+    @apply border-primary bg-primary/10;
+  }
+
+  .option-button .option-letter {
+    @apply w-8 h-8 rounded-full bg-neutral-100 text-neutral-600 font-bold text-sm flex items-center justify-center;
+  }
+
+  .option-button.selected .option-letter {
+    @apply bg-primary text-white;
+  }
+
+  .option-button .option-text {
+    @apply text-neutral-700 font-medium;
+  }
+
+  /* Question Input */
+  .question-input {
+    @apply max-w-md;
+  }
+
+  .question-input .numeric-input,
+  .question-input .text-input {
+    @apply w-full px-4 py-3 text-lg border-2 border-neutral-200 rounded-lg focus:border-primary focus:outline-none;
+  }
+
+  .question-input .input-unit {
+    @apply ml-3 text-neutral-500;
+  }
+
+  .question-input .input-hint {
+    @apply mt-2 text-xs text-neutral-400;
+  }
+
+  .answer-saved {
+    @apply mt-4 text-sm text-green-600 font-medium;
+  }
+
+  /* Assessment Navigation */
+  .assessment-navigation {
+    @apply flex items-center justify-between gap-4;
+  }
+
+  .assessment-navigation .nav-button {
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all;
+  }
+
+  .assessment-navigation .nav-button.prev {
+    @apply bg-neutral-100 text-neutral-700 hover:bg-neutral-200;
+  }
+
+  .assessment-navigation .nav-button.next {
+    @apply bg-primary text-white hover:bg-primary/90;
+  }
+
+  .assessment-navigation .nav-button.submit {
+    @apply bg-green-600 text-white hover:bg-green-700;
+  }
+
+  .assessment-navigation .nav-button:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  .assessment-navigation .answer-count {
+    @apply text-sm text-neutral-500;
+  }
+
+  /* Assessment Results */
+  .assessment-results {
+    @apply max-w-2xl mx-auto py-8;
+  }
+
+  .assessment-results .result-header {
+    @apply text-center mb-8;
+  }
+
+  .assessment-results .result-header.passed {
+    @apply text-green-600;
+  }
+
+  .assessment-results .result-header.failed {
+    @apply text-red-600;
+  }
+
+  .assessment-results .result-header h2 {
+    @apply text-2xl font-bold mt-4 mb-2;
+  }
+
+  .assessment-results .result-header p {
+    @apply text-neutral-600;
+  }
+
+  .assessment-results .result-score {
+    @apply flex justify-center mb-8;
+  }
+
+  .assessment-results .score-circle {
+    @apply w-40 h-40 rounded-full border-4 border-neutral-200 flex flex-col items-center justify-center;
+  }
+
+  .assessment-results .result-header.passed + .result-score .score-circle {
+    @apply border-green-200 bg-green-50;
+  }
+
+  .assessment-results .result-header.failed + .result-score .score-circle {
+    @apply border-red-200 bg-red-50;
+  }
+
+  .assessment-results .score-value {
+    @apply text-4xl font-bold text-neutral-900;
+  }
+
+  .assessment-results .score-label {
+    @apply text-sm text-neutral-500 mt-1;
+  }
+
+  .assessment-results .result-breakdown {
+    @apply bg-neutral-50 rounded-xl p-6;
+  }
+
+  .assessment-results .result-breakdown h3 {
+    @apply text-lg font-bold text-neutral-900 mb-4;
+  }
+
+  .assessment-results .review-list {
+    @apply space-y-2;
+  }
+
+  .assessment-results .review-item {
+    @apply flex items-center gap-4 p-3 bg-white rounded-lg border;
+  }
+
+  .assessment-results .review-item.correct {
+    @apply border-green-200;
+  }
+
+  .assessment-results .review-item.incorrect {
+    @apply border-red-200;
+  }
+
+  .assessment-results .review-item .review-number {
+    @apply text-sm font-bold text-neutral-700 w-8;
+  }
+
+  .assessment-results .review-item .review-module {
+    @apply text-xs font-medium px-2 py-0.5 bg-neutral-100 text-neutral-500 rounded;
+  }
+
+  .assessment-results .review-item .review-status {
+    @apply ml-auto;
+  }
+
+  .assessment-results .review-item.correct .review-status {
+    @apply text-green-600;
+  }
+
+  .assessment-results .review-item.incorrect .review-status {
+    @apply text-red-600;
+  }
+
+  .assessment-results .review-item .review-points {
+    @apply text-sm font-medium text-neutral-600 w-20 text-right;
+  }
+
+  .retry-button {
+    @apply mt-8 mx-auto flex items-center gap-2 px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors;
+  }
+
+  .completion-message {
+    @apply mt-8 p-6 bg-green-50 rounded-xl border border-green-200 text-center;
+  }
+
+  .completion-message p {
+    @apply text-green-700 font-medium;
+  }
 }

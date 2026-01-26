@@ -10,6 +10,7 @@ import { KReducedView } from './ui/views/KReducedView';
 import { KHedgedView } from './ui/views/KHedgedView';
 import { KFullView } from './ui/views/KFullView';
 import { PracticeView } from './ui/views/PracticeView';
+import { AssessmentView } from './ui/views/AssessmentView';
 import './index.css';
 
 function App() {
@@ -37,6 +38,8 @@ function App() {
         return <IhView />;
       case 'practice':
         return <PracticeView />;
+      case 'assessment':
+        return <AssessmentView />;
       default:
         return <div className="p-8">Select a topic from the sidebar</div>;
     }
