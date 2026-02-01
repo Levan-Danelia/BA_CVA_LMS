@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ADL SCORM 2004 4th Edition Sequencing Extensions
+  Advanced Distributed Learning (ADL)
+
+  Note: This is a simplified schema for SCORM 2004 4th Edition compliance.
+  For the complete official schema, visit: https://adlnet.gov/projects/scorm/
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.adlnet.org/xsd/adlseq_v1p3"
+           targetNamespace="http://www.adlnet.org/xsd/adlseq_v1p3"
+           elementFormDefault="qualified"
+           version="ADL SCORM 2004 4th Edition">
+
+    <!-- Constrained Choice Considerations -->
+    <xs:element name="constrainedChoiceConsiderations">
+        <xs:complexType>
+            <xs:attribute name="preventActivation" type="xs:boolean" default="false"/>
+            <xs:attribute name="constrainChoice" type="xs:boolean" default="false"/>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Rollup Considerations -->
+    <xs:element name="rollupConsiderations">
+        <xs:complexType>
+            <xs:attribute name="requiredForSatisfied" type="rollupConsiderationType" default="always"/>
+            <xs:attribute name="requiredForNotSatisfied" type="rollupConsiderationType" default="always"/>
+            <xs:attribute name="requiredForCompleted" type="rollupConsiderationType" default="always"/>
+            <xs:attribute name="requiredForIncomplete" type="rollupConsiderationType" default="always"/>
+            <xs:attribute name="measureSatisfactionIfActive" type="xs:boolean" default="true"/>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Objectives -->
+    <xs:element name="objectives">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="objective" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:attribute name="objectiveID" type="xs:anyURI"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Rollup Consideration Type -->
+    <xs:simpleType name="rollupConsiderationType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="always"/>
+            <xs:enumeration value="ifAttempted"/>
+            <xs:enumeration value="ifNotSkipped"/>
+            <xs:enumeration value="ifNotSuspended"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

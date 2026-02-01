@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lom xmlns="http://ltsc.ieee.org/xsd/LOM"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://ltsc.ieee.org/xsd/LOM lom.xsd">
+
+    <general>
+        <identifier>
+            <catalog>BA-CVA-LMS</catalog>
+            <entry>BA_CVA_Capital_Framework_v1.0</entry>
+        </identifier>
+        <title>
+            <string language="en">BA-CVA Capital Framework Training</string>
+        </title>
+        <language>en</language>
+        <description>
+            <string language="en">A comprehensive learning module covering the Basic Approach to Credit Valuation Adjustment (BA-CVA) capital framework. Topics include SCVA calculation, single name hedges, hedge mismatch adjustment, index hedges, K Reduced, K Hedged, and K Full aggregation methodologies.</string>
+        </description>
+        <keyword>
+            <string language="en">BA-CVA</string>
+        </keyword>
+        <keyword>
+            <string language="en">Credit Valuation Adjustment</string>
+        </keyword>
+        <keyword>
+            <string language="en">Capital Framework</string>
+        </keyword>
+        <keyword>
+            <string language="en">Basel III</string>
+        </keyword>
+        <keyword>
+            <string language="en">Risk Management</string>
+        </keyword>
+        <keyword>
+            <string language="en">Banking Regulation</string>
+        </keyword>
+        <structure>
+            <source>LOMv1.0</source>
+            <value>hierarchical</value>
+        </structure>
+        <aggregationLevel>
+            <source>LOMv1.0</source>
+            <value>2</value>
+        </aggregationLevel>
+    </general>
+
+    <lifeCycle>
+        <version>
+            <string language="en">1.0</string>
+        </version>
+        <status>
+            <source>LOMv1.0</source>
+            <value>final</value>
+        </status>
+        <contribute>
+            <role>
+                <source>LOMv1.0</source>
+                <value>author</value>
+            </role>
+            <date>
+                <dateTime>2025-01-01</dateTime>
+            </date>
+        </contribute>
+    </lifeCycle>
+
+    <metaMetadata>
+        <metadataSchema>LOMv1.0</metadataSchema>
+        <metadataSchema>SCORM_CAM_v1.3</metadataSchema>
+        <language>en</language>
+    </metaMetadata>
+
+    <technical>
+        <format>text/html</format>
+        <format>application/javascript</format>
+        <format>text/css</format>
+        <location>index.html</location>
+        <requirement>
+            <orComposite>
+                <type>
+                    <source>LOMv1.0</source>
+                    <value>browser</value>
+                </type>
+                <name>
+                    <source>LOMv1.0</source>
+                    <value>any</value>
+                </name>
+                <minimumVersion>ES6</minimumVersion>
+            </orComposite>
+        </requirement>
+    </technical>
+
+    <educational>
+        <interactivityType>
+            <source>LOMv1.0</source>
+            <value>mixed</value>
+        </interactivityType>
+        <learningResourceType>
+            <source>LOMv1.0</source>
+            <value>exercise</value>
+        </learningResourceType>
+        <learningResourceType>
+            <source>LOMv1.0</source>
+            <value>simulation</value>
+        </learningResourceType>
+        <interactivityLevel>
+            <source>LOMv1.0</source>
+            <value>high</value>
+        </interactivityLevel>
+        <intendedEndUserRole>
+            <source>LOMv1.0</source>
+            <value>learner</value>
+        </intendedEndUserRole>
+        <context>
+            <source>LOMv1.0</source>
+            <value>training</value>
+        </context>
+        <typicalAgeRange>
+            <string language="en">18+</string>
+        </typicalAgeRange>
+        <typicalLearningTime>
+            <duration>PT2H</duration>
+            <description>
+                <string language="en">Approximately 2 hours to complete all modules and assessment</string>
+            </description>
+        </typicalLearningTime>
+        <description>
+            <string language="en">Interactive learning module with visual process maps, calculations, and knowledge assessment.</string>
+        </description>
+        <language>en</language>
+    </educational>
+
+    <rights>
+        <cost>
+            <source>LOMv1.0</source>
+            <value>no</value>
+        </cost>
+        <copyrightAndOtherRestrictions>
+            <source>LOMv1.0</source>
+            <value>yes</value>
+        </copyrightAndOtherRestrictions>
+        <description>
+            <string language="en">Internal training material. All rights reserved.</string>
+        </description>
+    </rights>
+
+    <classification>
+        <purpose>
+            <source>LOMv1.0</source>
+            <value>educational objective</value>
+        </purpose>
+        <description>
+            <string language="en">Upon completion, learners will understand and be able to calculate BA-CVA capital requirements including SCVA, hedge recognition, and aggregation formulas.</string>
+        </description>
+    </classification>
+</lom>

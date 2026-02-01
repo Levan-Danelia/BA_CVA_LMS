@@ -3,7 +3,16 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    // Custom plugin to remove crossorigin attribute for SCORM compatibility
+    {
+      name: 'remove-crossorigin',
+      transformIndexHtml(html) {
+        return html.replace(/ crossorigin/g, '')
+      }
+    }
+  ],
   // SCORM requires relative paths for deployment in LMS
   base: './',
   build: {

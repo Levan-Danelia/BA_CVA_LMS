@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ADL SCORM 2004 4th Edition Content Packaging Extensions
+  Advanced Distributed Learning (ADL)
+
+  Note: This is a simplified schema for SCORM 2004 4th Edition compliance.
+  For the complete official schema, visit: https://adlnet.gov/projects/scorm/
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.adlnet.org/xsd/adlcp_v1p3"
+           targetNamespace="http://www.adlnet.org/xsd/adlcp_v1p3"
+           elementFormDefault="qualified"
+           version="ADL SCORM 2004 4th Edition">
+
+    <!-- Location element for external metadata -->
+    <xs:element name="location" type="xs:anyURI"/>
+
+    <!-- scormType attribute for resources -->
+    <xs:attribute name="scormType">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="sco"/>
+                <xs:enumeration value="asset"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:attribute>
+
+    <!-- Data persistence elements -->
+    <xs:element name="dataFromLMS" type="xs:string"/>
+    <xs:element name="timeLimitAction">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="exit,message"/>
+                <xs:enumeration value="exit,no message"/>
+                <xs:enumeration value="continue,message"/>
+                <xs:enumeration value="continue,no message"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+
+    <!-- Completion threshold -->
+    <xs:element name="completionThreshold">
+        <xs:complexType>
+            <xs:attribute name="completedByMeasure" type="xs:boolean" default="false"/>
+            <xs:attribute name="minProgressMeasure" type="xs:decimal"/>
+            <xs:attribute name="progressWeight" type="xs:decimal"/>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Data element for shared data buckets -->
+    <xs:element name="data">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="map" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:attribute name="targetID" type="xs:anyURI" use="required"/>
+                        <xs:attribute name="readSharedData" type="xs:boolean" default="true"/>
+                        <xs:attribute name="writeSharedData" type="xs:boolean" default="false"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

@@ -11,47 +11,69 @@ import type { ViewType, SerializableState } from './store/courseStore'
  * Initialize the application with SCORM or localStorage state restoration
  */
 function initializeApp() {
-  // Try to initialize SCORM API
-  const scormInitialized = scormAPI.initialize();
+  console.log('[BA-CVA] Application initializing...');
 
-  if (scormInitialized) {
-    console.log('Running in LMS mode');
+  let scormInitialized = false;
 
-    // Get learner info
-    const learnerInfo = scormAPI.getLearnerInfo();
-    if (learnerInfo.id || learnerInfo.name) {
-      useCourseStore.getState().setLearnerInfo(learnerInfo.id, learnerInfo.name);
-      console.log(`Learner: ${learnerInfo.name} (${learnerInfo.id})`);
-    }
+  try {
+    // Try to initialize SCORM API
+    scormInitialized = scormAPI.initialize();
 
-    // Try to restore from suspend_data first
-    const suspendData = scormAPI.getSuspendData<SerializableState>();
-    if (suspendData) {
-      console.log('Restoring state from SCORM suspend_data');
-      useCourseStore.getState().restoreState(suspendData);
+    if (scormInitialized) {
+      console.log('[BA-CVA] Running in LMS mode');
+
+      // Get learner info
+      try {
+        const learnerInfo = scormAPI.getLearnerInfo();
+        if (learnerInfo.id || learnerInfo.name) {
+          useCourseStore.getState().setLearnerInfo(learnerInfo.id, learnerInfo.name);
+          console.log(`[BA-CVA] Learner: ${learnerInfo.name} (${learnerInfo.id})`);
+        }
+      } catch (e) {
+        console.warn('[BA-CVA] Could not get learner info:', e);
+      }
+
+      // Try to restore from suspend_data first
+      try {
+        const suspendData = scormAPI.getSuspendData<SerializableState>();
+        if (suspendData) {
+          console.log('[BA-CVA] Restoring state from SCORM suspend_data');
+          useCourseStore.getState().restoreState(suspendData);
+        } else {
+          // Fallback to bookmark location
+          const savedLocation = scormAPI.getLocation();
+          if (savedLocation && isValidView(savedLocation)) {
+            console.log(`[BA-CVA] Restoring bookmark location: ${savedLocation}`);
+            useCourseStore.getState().setView(savedLocation as ViewType);
+          }
+        }
+      } catch (e) {
+        console.warn('[BA-CVA] Could not restore SCORM state:', e);
+      }
     } else {
-      // Fallback to bookmark location
-      const savedLocation = scormAPI.getLocation();
-      if (savedLocation && isValidView(savedLocation)) {
-        console.log(`Restoring bookmark location: ${savedLocation}`);
-        useCourseStore.getState().setView(savedLocation as ViewType);
-      }
-    }
-  } else {
-    console.log('Running in standalone mode (no LMS detected)');
+      console.log('[BA-CVA] Running in standalone mode (no LMS detected)');
 
-    // Try to restore from localStorage
-    if (localStorageService.isAvailable() && localStorageService.exists()) {
-      const savedState = localStorageService.load<SerializableState>();
-      if (savedState) {
-        console.log('Restoring state from localStorage');
-        useCourseStore.getState().restoreState(savedState);
+      // Try to restore from localStorage
+      try {
+        if (localStorageService.isAvailable() && localStorageService.exists()) {
+          const savedState = localStorageService.load<SerializableState>();
+          if (savedState) {
+            console.log('[BA-CVA] Restoring state from localStorage');
+            useCourseStore.getState().restoreState(savedState);
+          }
+        }
+      } catch (e) {
+        console.warn('[BA-CVA] Could not restore localStorage state:', e);
       }
     }
+  } catch (e) {
+    console.error('[BA-CVA] Error during initialization:', e);
   }
 
   // Set up page unload handler
   setupUnloadHandler(scormInitialized);
+
+  console.log('[BA-CVA] Initialization complete');
 }
 
 /**

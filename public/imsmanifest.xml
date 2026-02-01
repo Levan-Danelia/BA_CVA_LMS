@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BA-CVA Learning Module
+  SCORM 2004 4th Edition Content Package Manifest
+
+  This manifest file describes the structure and resources of the learning content.
+  It is automatically updated during the build process with all asset files.
+-->
 <manifest identifier="BA_CVA_LMS_Course"
           version="1.0"
           xmlns="http://www.imsglobal.org/xsd/imscp_v1p1"
@@ -74,7 +81,11 @@
                   adlcp:scormType="sco"
                   href="index.html">
             <file href="index.html"/>
-            <!-- Asset files will be included in the build -->
+            <!--
+              NOTE: This is a template manifest.
+              The build script (scripts/build-scorm.cjs) generates the final
+              manifest with all asset files enumerated during the SCORM package build.
+            -->
         </resource>
     </resources>
 </manifest>

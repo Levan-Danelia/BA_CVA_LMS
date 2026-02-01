@@ -35,7 +35,7 @@ class SCORMAPIService {
   private startTime: number = 0;
   private findAttempts: number = 0;
   private maxAttempts: number = 500;
-  private debugMode: boolean = false; // Set to true to see SCORM API calls in console
+  private debugMode: boolean = true; // Enable debug mode for SCORM Cloud testing
 
   /**
    * Find the SCORM API in the window hierarchy
@@ -44,18 +44,30 @@ class SCORMAPIService {
   private findAPI(win: Window): any {
     this.findAttempts = 0;
 
-    // Check current window first
-    if (win.API_1484_11) {
-      return win.API_1484_11;
-    }
-
-    // Search up through parent windows
-    while (win.parent && win.parent !== win && this.findAttempts < this.maxAttempts) {
-      this.findAttempts++;
-      win = win.parent;
+    try {
+      // Check current window first
       if (win.API_1484_11) {
+        this.log('Found API_1484_11 in current window');
         return win.API_1484_11;
       }
+
+      // Search up through parent windows
+      while (win.parent && win.parent !== win && this.findAttempts < this.maxAttempts) {
+        this.findAttempts++;
+        try {
+          win = win.parent;
+          if (win.API_1484_11) {
+            this.log(`Found API_1484_11 in parent window (attempt ${this.findAttempts})`);
+            return win.API_1484_11;
+          }
+        } catch (e) {
+          // Cross-origin access denied - this is expected in some LMS setups
+          this.log(`Cross-origin access denied at attempt ${this.findAttempts}`);
+          break;
+        }
+      }
+    } catch (e) {
+      this.log('Error finding SCORM API: ' + (e as Error).message);
     }
 
     return null;
